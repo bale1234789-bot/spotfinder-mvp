@@ -1,106 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Add a Spot – SpotFinder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-</head>
-<body class="sf-body">
-  <header class="sf-header">
-    <div class="sf-logo-wrap">
-      <div class="sf-logo-dot"></div>
-      <span class="sf-logo-text">SpotFinder</span>
-    </div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SpotFinder | Add Spot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
 
-  <main class="sf-main">
-    <section class="sf-page-head">
+  <body class="sf-body" data-page="add">
+    <header class="sf-header">
+      <div class="sf-logo-wrap">
+        <div class="sf-logo-dot"></div>
+        <span class="sf-logo-text">SpotFinder</span>
+      </div>
+    </header>
+
+    <main class="sf-main">
       <h1 class="sf-hero-title-small">Recommend a Spot</h1>
-      <p class="sf-hero-sub">Help other students and remote workers discover great places.</p>
-    </section>
+      <p class="sf-hero-sub">
+        Help other students and remote workers discover great places.
+      </p>
 
-    <section class="sf-form-wrap">
-      <!-- For MVP this can submit to a Google Form URL instead of "#" -->
-      <form class="sf-form" action="#" method="post">
-        <label class="sf-field">
-          <span>Spot name</span>
-          <input type="text" name="name" required />
-        </label>
+      <div class="sf-form-wrap">
+        <form class="sf-form">
+          <div class="sf-field">
+            <span>Spot name</span>
+            <input type="text" required />
+          </div>
 
-        <label class="sf-field">
-          <span>City / Area</span>
-          <input type="text" name="location" required />
-        </label>
+          <div class="sf-field">
+            <span>City / Area</span>
+            <input type="text" required />
+          </div>
 
-        <label class="sf-field">
-          <span>Type</span>
-          <select name="type" required>
-            <option value="">Select type</option>
-            <option value="workspace">Workspace</option>
-            <option value="cafe">Work Café</option>
-            <option value="other">Other</option>
-          </select>
-        </label>
+          <div class="sf-field">
+            <span>Type</span>
+            <select required>
+              <option value="">Select type</option>
+              <option value="workspace">Workspace</option>
+              <option value="cafe">Café</option>
+            </select>
+          </div>
 
-        <label class="sf-field">
-          <span>WiFi Availability</span>
-          <select name="wifi" required>
-            <option value="">Choose one</option>
-            <option value="none">No WiFi</option>
-            <option value="available">Available</option>
-            <option value="stable">Available &amp; Stable</option>
-          </select>
-        </label>
+          <div class="sf-field">
+            <span>WiFi Availability</span>
+            <select required>
+              <option value="">Choose one</option>
+              <option>Weak / unstable</option>
+              <option>Okay for browsing</option>
+              <option>Strong – video calls</option>
+            </select>
+          </div>
 
-        <label class="sf-field">
-          <span>Seating &amp; Desk Comfort (1–5)</span>
-          <input type="number" name="comfort" min="1" max="5" required />
-        </label>
+          <div class="sf-field">
+            <span>Notes</span>
+            <textarea rows="3" placeholder="Anything useful for other users"></textarea>
+          </div>
 
-        <label class="sf-field">
-          <span>Temperature</span>
-          <select name="temperature" required>
-            <option value="">Select</option>
-            <option value="cold">Cold</option>
-            <option value="balanced">Balanced</option>
-            <option value="warm">Warm</option>
-          </select>
-        </label>
+          <div class="sf-bottom-action">
+            <button type="button" class="sf-primary-btn" onclick="alert('In the MVP, this just shows a message. In a real app, this would send the spot to our database.')">
+              Submit suggestion
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
 
-        <label class="sf-field">
-          <span>Noise &amp; Focus</span>
-          <select name="noise" required>
-            <option value="">Select</option>
-            <option value="silent">Silent (library-like)</option>
-            <option value="moderate">Moderate (normal café)</option>
-            <option value="loud">Loud (busy / music high)</option>
-          </select>
-        </label>
+    <nav class="sf-nav">
+      <a href="index.html" class="sf-nav-item" data-nav="home">Home</a>
+      <a href="spots.html" class="sf-nav-item" data-nav="spots">Spots</a>
+      <a href="add-spot.html" class="sf-nav-item" data-nav="add">Add Spot</a>
+      <a href="about.html" class="sf-nav-item" data-nav="about">About</a>
+    </nav>
 
-        <label class="sf-field">
-          <span>Power Outlets (0–5)</span>
-          <input type="number" name="outlets" min="0" max="5" required />
-        </label>
-
-        <label class="sf-field">
-          <span>Anything the community should know?</span>
-          <textarea name="notes" rows="3" placeholder="Best time to study, noisy hours, etc."></textarea>
-        </label>
-
-        <button type="submit" class="sf-primary-btn">Submit Spot (MVP Demo)</button>
-        <p class="sf-note">
-          In the full version, this form will send your suggestion to the SpotFinder team.
-        </p>
-      </form>
-    </section>
-  </main>
-
-  <nav class="sf-nav">
-    <a href="index.html" class="sf-nav-item">Home</a>
-    <a href="spots.html" class="sf-nav-item">Spots</a>
-    <a href="add-spot.html" class="sf-nav-item sf-nav-item-active">Add Spot</a>
-    <a href="about.html" class="sf-nav-item">About</a>
-  </nav>
-</body>
+    <script src="assets/js/app.js"></script>
+  </body>
 </html>
