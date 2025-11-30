@@ -145,8 +145,10 @@ body {
   inset: 0;
   background-size: cover;
   background-position: center;
-  filter: brightness(0.45);
+  filter: brightness(0.9);
+  opacity: 0.9;
 }
+
 
 .sf-card-bg-workspace {
   background-image: url("../img/workspace.jpg");
@@ -177,12 +179,14 @@ body {
   display: inline-flex;
   padding: 4px 10px;
   border-radius: var(--sf-radius-pill);
-  background: rgba(5, 6, 8, 0.7);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--sf-text-soft);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 10px;
 }
+
 
 .sf-card h2 {
   margin: 0 0 4px;
@@ -248,11 +252,13 @@ body {
   gap: 12px;
   padding: 10px;
   border-radius: var(--sf-radius-md);
-  background: linear-gradient(135deg, #10121a, #060811);
-  border: 1px solid rgba(70, 255, 186, 0.16);
+  background: #ffffff;
+  border: 1px solid #d8dde5;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   text-decoration: none;
   color: inherit;
 }
+
 
 .sf-spot-img {
   width: 60px;
