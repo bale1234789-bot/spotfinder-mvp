@@ -21,25 +21,90 @@
           Spots ranked using comfort, temperature, noise, WiFi, and outlets.
         </p>
 
+        <!-- Tabs (visual only for now) -->
         <div class="sf-filter-row">
-          <div class="sf-filter-tabs" data-sf-filter-tabs>
-            <button
-              class="sf-filter-tab sf-filter-tab-active"
-              data-sf-filter="all"
-            >
-              All
-            </button>
-            <button class="sf-filter-tab" data-sf-filter="workspace">
-              Workspaces
-            </button>
-            <button class="sf-filter-tab" data-sf-filter="cafe">
-              Cafés
-            </button>
+          <div class="sf-filter-tabs">
+            <button class="sf-filter-tab sf-filter-tab-active">All</button>
+            <button class="sf-filter-tab">Workspaces</button>
+            <button class="sf-filter-tab">Cafés</button>
           </div>
         </div>
       </section>
 
-      <section class="sf-list" data-sf-spot-list></section>
+      <!-- Static list of spots -->
+      <section class="sf-list">
+        <!-- Tim Hortons -->
+        <a href="spot-tim-hortons.html" class="sf-spot-card">
+          <img
+            class="sf-spot-img"
+            src="assets/img/tim.jpg"
+            alt="Tim Hortons"
+          />
+          <div class="sf-spot-main">
+            <h2 class="sf-spot-name">Tim Hortons – تيم هورتنز</h2>
+            <p class="sf-spot-location">
+              Khobar, Saudi Arabia • 0.3 km
+            </p>
+            <div class="sf-spot-meta">
+              <span class="sf-match-pill">98% Match</span>
+              <div class="sf-mini-metrics">
+                <span>📶 Great</span>
+                <span>🔌 5</span>
+                <span>🪑 High</span>
+                <span>🔈 Quiet Zone</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Equal Café -->
+        <a href="spot-equal.html" class="sf-spot-card">
+          <img
+            class="sf-spot-img"
+            src="assets/img/equal.jpg"
+            alt="Equal Café"
+          />
+          <div class="sf-spot-main">
+            <h2 class="sf-spot-name">Equal – ايكوال</h2>
+            <p class="sf-spot-location">
+              Khobar, Saudi Arabia • 2.8 km
+            </p>
+            <div class="sf-spot-meta">
+              <span class="sf-match-pill">92% Match</span>
+              <div class="sf-mini-metrics">
+                <span>📶 Great</span>
+                <span>🔌 3</span>
+                <span>🪑 Medium</span>
+                <span>🔈 Moderate</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Tulum Café -->
+        <a href="spot-tulum.html" class="sf-spot-card">
+          <img
+            class="sf-spot-img"
+            src="assets/img/tulum.jpg"
+            alt="Tulum Café"
+          />
+          <div class="sf-spot-main">
+            <h2 class="sf-spot-name">Tulum Café – كافيه تلم</h2>
+            <p class="sf-spot-location">
+              Khobar, Saudi Arabia • 2.7 km
+            </p>
+            <div class="sf-spot-meta">
+              <span class="sf-match-pill">90% Match</span>
+              <div class="sf-mini-metrics">
+                <span>📶 Great</span>
+                <span>🔌 4</span>
+                <span>🪑 High</span>
+                <span>🔈 Quiet</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </section>
     </main>
 
     <nav class="sf-nav">
@@ -48,7 +113,5 @@
       <a href="add-spot.html" class="sf-nav-item">Add Spot</a>
       <a href="about.html" class="sf-nav-item">About</a>
     </nav>
-
-    <script src="assets/js/app.js"></script>
   </body>
 </html>
