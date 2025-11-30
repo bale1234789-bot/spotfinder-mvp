@@ -1,55 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>About – SpotFinder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-</head>
-<body class="sf-body">
-  <header class="sf-header">
-    <div class="sf-logo-wrap">
-      <div class="sf-logo-dot"></div>
-      <span class="sf-logo-text">SpotFinder</span>
-    </div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SpotFinder | Spots</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="sf-body">
+    <header class="sf-header">
+      <div class="sf-logo-wrap">
+        <div class="sf-logo-dot"></div>
+        <span class="sf-logo-text">SpotFinder</span>
+      </div>
+    </header>
 
-  <main class="sf-main">
-    <section class="sf-page-head">
-      <h1 class="sf-hero-title-small">About SpotFinder</h1>
-    </section>
+    <main class="sf-main">
+      <section class="sf-page-head">
+        <h1 class="sf-hero-title-small">Near You &amp; Top Matches</h1>
+        <p class="sf-hero-sub">
+          Spots ranked using comfort, temperature, noise, WiFi, and outlets.
+        </p>
 
-    <section class="sf-about">
-      <p>
-        SpotFinder is a simple platform that helps students, freelancers,
-        and remote workers find the best places to study or work.
-      </p>
+        <div class="sf-filter-row">
+          <div class="sf-filter-tabs" data-sf-filter-tabs>
+            <button
+              class="sf-filter-tab sf-filter-tab-active"
+              data-sf-filter="all"
+            >
+              All
+            </button>
+            <button class="sf-filter-tab" data-sf-filter="workspace">
+              Workspaces
+            </button>
+            <button class="sf-filter-tab" data-sf-filter="cafe">
+              Cafés
+            </button>
+          </div>
+        </div>
+      </section>
 
-      <p>
-        Instead of guessing or relying on random Google reviews,
-        SpotFinder evaluates each spot using five practical metrics:
-      </p>
+      <section class="sf-list" data-sf-spot-list></section>
+    </main>
 
-      <ul>
-        <li>Seating & Desk Comfort</li>
-        <li>Temperature</li>
-        <li>Noise & Focus</li>
-        <li>WiFi Availability</li>
-        <li>Power Outlets</li>
-      </ul>
+    <nav class="sf-nav">
+      <a href="index.html" class="sf-nav-item">Home</a>
+      <a href="spots.html" class="sf-nav-item sf-nav-item-active">Spots</a>
+      <a href="add-spot.html" class="sf-nav-item">Add Spot</a>
+      <a href="about.html" class="sf-nav-item">About</a>
+    </nav>
 
-      <p>
-        This is the MVP version of the project — built to validate the idea,
-        gather feedback, and begin mapping great work/study spaces.
-      </p>
-    </section>
-  </main>
-
-  <nav class="sf-nav">
-    <a href="index.html" class="sf-nav-item">Home</a>
-    <a href="spots.html" class="sf-nav-item">Spots</a>
-    <a href="add-spot.html" class="sf-nav-item">Add Spot</a>
-    <a href="about.html" class="sf-nav-item sf-nav-item-active">About</a>
-  </nav>
-</body>
+    <script src="assets/js/app.js"></script>
+  </body>
 </html>
