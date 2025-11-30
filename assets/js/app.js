@@ -1,208 +1,246 @@
-// --- Base data ---------------------------------------------------
+// SpotFinder MVP logic
+// - Stores user preferences in localStorage
+// - Computes match % for each spot
+// - Renders spots list
+// - Highlights active nav item
 
-const defaultSpots = [
+const STORAGE_KEY = "sfPreferences";
+
+/**
+ * Default preferences (1–3 scale)
+ */
+const defaultPreferences = {
+  wifi: 2,
+  noise: 2,
+  temp: 2,
+  outlets: 2,
+  comfort: 2,
+};
+
+/**
+ * Hard-coded spots data for MVP
+ * metrics are on the same 1–3 scale
+ */
+const spotsData = [
   {
-    id: "tim-hortons",
+    id: "tim",
     name: "Tim Hortons – تيم هورتنز",
+    location: "Khobar, Saudi Arabia • 0.3 km",
     type: "cafe",
-    city: "Khobar, Saudi Arabia",
-    distanceKm: 0.3,
     img: "assets/img/tim.jpg",
-    match: 98,
-    wifi: "Great",
-    noise: "Quiet Zone",
-    outlets: "5",
-    comfort: "High",
+    metrics: {
+      wifi: 3,
+      noise: 1, // quieter
+      temp: 2,
+      outlets: 3,
+      comfort: 3,
+    },
+    link: "spot-tim-hortons.html",
+    mini: {
+      wifi: "📶 Great",
+      noise: "🔈 Quiet Zone",
+      outlets: "🔌 5",
+    },
   },
   {
     id: "equal",
     name: "Equal – ايكوال",
+    location: "Khobar, Saudi Arabia • 2.8 km",
     type: "cafe",
-    city: "Khobar, Saudi Arabia",
-    distanceKm: 2.8,
     img: "assets/img/equal.jpg",
-    match: 92,
-    wifi: "Great",
-    noise: "Moderate",
-    outlets: "3",
-    comfort: "Medium",
+    metrics: {
+      wifi: 3,
+      noise: 2,
+      temp: 2,
+      outlets: 2,
+      comfort: 2,
+    },
+    link: "spot-equal.html",
+    mini: {
+      wifi: "📶 Great",
+      noise: "🔈 Moderate",
+      outlets: "🔌 3",
+    },
   },
   {
     id: "tulum",
     name: "Tulum Café – كافيه تلم",
+    location: "Khobar, Saudi Arabia • 2.7 km",
     type: "cafe",
-    city: "Khobar, Saudi Arabia",
-    distanceKm: 2.7,
     img: "assets/img/tulum.jpg",
-    match: 90,
-    wifi: "Great",
-    noise: "Quiet",
-    outlets: "4",
-    comfort: "High",
+    metrics: {
+      wifi: 3,
+      noise: 1,
+      temp: 2,
+      outlets: 3,
+      comfort: 3,
+    },
+    link: "spot-tulum.html",
+    mini: {
+      wifi: "📶 Great",
+      noise: "🔈 Quiet",
+      outlets: "🔌 4",
+    },
   },
 ];
 
-// --- Local storage helpers --------------------------------------
-
-const STORAGE_KEY = "spotfinder-spots";
-
-function loadSpots() {
+/**
+ * Read preferences from localStorage
+ */
+function getPreferences() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [...defaultSpots];
+    if (!raw) return { ...defaultPreferences };
     const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed) || !parsed.length) return [...defaultSpots];
-    return parsed;
-  } catch {
-    return [...defaultSpots];
-  }
-}
-
-function saveSpots(spots) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(spots));
+    return { ...defaultPreferences, ...parsed };
   } catch (e) {
-    console.warn("Could not save spots to localStorage", e);
+    console.warn("Failed to read preferences, using defaults", e);
+    return { ...defaultPreferences };
   }
 }
 
-let spots = loadSpots();
-
-// --- Rendering helpers ------------------------------------------
-
-function createSpotCard(spot) {
-  const a = document.createElement("a");
-  a.className = "sf-spot-card";
-  a.href = "#"; // For MVP no detail page yet
-
-  a.innerHTML = `
-    <img class="sf-spot-img" src="${spot.img}" alt="${spot.name}" />
-    <div class="sf-spot-main">
-      <h2 class="sf-spot-name">${spot.name}</h2>
-      <p class="sf-spot-location">${spot.city} • ${spot.distanceKm.toFixed(
-    1
-  )} km</p>
-      <div class="sf-spot-meta">
-        <span class="sf-match-pill">${spot.match}% Match</span>
-        <div class="sf-mini-metrics">
-          <span>📶 ${spot.wifi}</span>
-          <span>🔌 ${spot.outlets}</span>
-          <span>🪑 ${spot.comfort}</span>
-          <span>🔈 ${spot.noise}</span>
-        </div>
-      </div>
-    </div>
-  `;
-
-  return a;
+/**
+ * Save preferences to localStorage
+ */
+function savePreferences(prefs) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
+  } catch (e) {
+    console.warn("Failed to save preferences", e);
+  }
 }
 
-function renderSpots(listEl, filterType = "all") {
-  listEl.innerHTML = "";
+/**
+ * Simple match score (0–100)
+ * smaller difference between spot and preferences => higher score
+ */
+function calculateMatch(spotMetrics, prefs) {
+  let totalDiff = 0;
+  let count = 0;
 
-  const filtered = spots
-    .slice()
-    .sort((a, b) => b.match - a.match)
-    .filter((s) => (filterType === "all" ? true : s.type === filterType));
-
-  if (!filtered.length) {
-    const empty = document.createElement("p");
-    empty.className = "sf-body-text";
-    empty.textContent =
-      "No spots yet for this category. Try adding one from the Add Spot page.";
-    listEl.appendChild(empty);
-    return;
+  for (const key of Object.keys(defaultPreferences)) {
+    if (spotMetrics[key] == null) continue;
+    const diff = Math.abs((spotMetrics[key] || 2) - (prefs[key] || 2));
+    totalDiff += diff;
+    count++;
   }
 
-  filtered.forEach((spot) => listEl.appendChild(createSpotCard(spot)));
+  const maxDiffPerMetric = 2; // scale 1–3 => max diff = 2
+  const maxDiff = maxDiffPerMetric * count || 1;
+  const closeness = 1 - totalDiff / maxDiff; // 0..1
+
+  // Base between 60% and 100%
+  const score = Math.round(60 + closeness * 40);
+  return Math.max(40, Math.min(100, score));
 }
 
-// --- Page initializers ------------------------------------------
-
-function initSpotsPage() {
-  const listEl = document.querySelector("[data-sf-spot-list]");
-  if (!listEl) return;
-
-  // Initial filter based on URL hash (#workspaces or #cafes)
-  let currentFilter = "all";
-  if (location.hash === "#workspaces") currentFilter = "workspace";
-  if (location.hash === "#cafes") currentFilter = "cafe";
-
-  const tabEls = document.querySelectorAll("[data-sf-filter]");
-  tabEls.forEach((btn) => {
-    const type = btn.getAttribute("data-sf-filter");
-    if (type === currentFilter) {
-      btn.classList.add("sf-filter-tab-active");
-    } else if (type === "all" && currentFilter === "all") {
-      btn.classList.add("sf-filter-tab-active");
-    }
-
-    btn.addEventListener("click", () => {
-      tabEls.forEach((b) => b.classList.remove("sf-filter-tab-active"));
-      btn.classList.add("sf-filter-tab-active");
-      currentFilter = type;
-      renderSpots(listEl, currentFilter);
-    });
-  });
-
-  renderSpots(listEl, currentFilter);
-}
-
-function initAddSpotForm() {
-  const form = document.querySelector("[data-sf-add-form]");
+/**
+ * Init preferences form on home page
+ */
+function initPreferencesForm() {
+  const form = document.getElementById("sf-preferences-form");
   if (!form) return;
+
+  const prefs = getPreferences();
+
+  // Fill current values
+  for (const [key, value] of Object.entries(prefs)) {
+    const field = form.elements.namedItem(key);
+    if (field) field.value = String(value);
+  }
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-
     const formData = new FormData(form);
-    const name = formData.get("name").trim();
-    const city = formData.get("city").trim();
-    const type = formData.get("type");
-    const wifi = formData.get("wifi");
-    const comfort = formData.get("comfort");
-    const noise = formData.get("noise");
-    const outlets = formData.get("outlets");
+    const newPrefs = { ...defaultPreferences };
 
-    if (!name || !city || !type) return;
+    for (const key of Object.keys(defaultPreferences)) {
+      const raw = formData.get(key);
+      if (raw != null) newPrefs[key] = Number(raw);
+    }
 
-    // Simple match score based on comfort + wifi
-    let match = 80;
-    const comfortNum = Number(comfort) || 3;
-    match += (comfortNum - 3) * 3; // -6 .. +6
+    savePreferences(newPrefs);
 
-    if (wifi === "Great") match += 8;
-    else if (wifi === "Good") match += 4;
-    else if (wifi === "None") match -= 6;
-
-    match = Math.max(60, Math.min(99, match));
-
-    const newSpot = {
-      id: `user-${Date.now()}`,
-      name,
-      type,
-      city,
-      distanceKm: 1.0,
-      img: type === "workspace" ? "assets/img/workspace.jpg" : "assets/img/cafe.jpg",
-      match,
-      wifi,
-      noise,
-      outlets,
-      comfort:
-        comfortNum >= 4 ? "High" : comfortNum <= 2 ? "Low" : "Medium",
-    };
-
-    spots.push(newSpot);
-    saveSpots(spots);
-
-    // Simple UX: redirect to spots list
+    // Simple feedback + go to Spots page
+    alert("Preferences saved! We’ll adjust matches for you.");
     window.location.href = "spots.html";
   });
 }
 
-// --- Boot --------------------------------------------------------
+/**
+ * Render spots on Spots page
+ */
+function renderSpots() {
+  const list = document.getElementById("sf-spot-list");
+  if (!list) return;
 
+  const prefs = getPreferences();
+  let currentFilter = "all";
+
+  function draw() {
+    list.innerHTML = "";
+    spotsData.forEach((spot) => {
+      if (currentFilter !== "all" && spot.type !== currentFilter) return;
+
+      const match = calculateMatch(spot.metrics, prefs);
+
+      const card = document.createElement("a");
+      card.href = spot.link;
+      card.className = "sf-spot-card";
+      card.innerHTML = `
+        <img class="sf-spot-img" src="${spot.img}" alt="${spot.name}" />
+        <div class="sf-spot-main">
+          <h2 class="sf-spot-name">${spot.name}</h2>
+          <p class="sf-spot-location">${spot.location}</p>
+          <div class="sf-spot-meta">
+            <span class="sf-match-pill">${match}% Match</span>
+            <div class="sf-mini-metrics">
+              <span>${spot.mini.wifi}</span>
+              <span>${spot.mini.noise}</span>
+              <span>${spot.mini.outlets}</span>
+            </div>
+          </div>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  // Filters
+  const tabs = document.querySelectorAll(
+    "#sf-filter-tabs .sf-filter-tab"
+  );
+  tabs.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      tabs.forEach((b) => b.classList.remove("sf-filter-tab-active"));
+      btn.classList.add("sf-filter-tab-active");
+      currentFilter = btn.dataset.filter || "all";
+      draw();
+    });
+  });
+
+  draw();
+}
+
+/**
+ * Highlight active nav item based on body[data-page]
+ */
+function highlightNav() {
+  const page = document.body.dataset.page;
+  const nav = document.querySelector(".sf-nav");
+  if (!nav || !page) return;
+
+  nav.querySelectorAll(".sf-nav-item").forEach((item) => {
+    const target = item.dataset.nav;
+    item.classList.toggle("sf-nav-item-active", target === page);
+  });
+}
+
+// ===== Bootstrapping =====
 document.addEventListener("DOMContentLoaded", () => {
-  initSpotsPage();
-  initAddSpotForm();
+  highlightNav();
+
+  const page = document.body.dataset.page;
+  if (page === "home") initPreferencesForm();
+  if (page === "spots") renderSpots();
 });
