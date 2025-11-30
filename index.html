@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-  <body class="sf-body">
+
+  <body class="sf-body" data-page="home">
+    <!-- Header -->
     <header class="sf-header">
       <div class="sf-logo-wrap">
         <div class="sf-logo-dot"></div>
@@ -14,7 +16,9 @@
       </div>
     </header>
 
+    <!-- Main -->
     <main class="sf-main">
+      <!-- Hero -->
       <section class="sf-hero">
         <h1 class="sf-hero-title">Where are you working today?</h1>
         <p class="sf-hero-sub">
@@ -22,8 +26,7 @@
         </p>
 
         <div class="sf-option-grid">
-          <!-- Workspaces card -->
-          <a href="spots.html#workspaces" class="sf-card sf-card-glow">
+          <a href="spots.html" class="sf-card sf-card-glow">
             <div class="sf-card-bg sf-card-bg-workspace"></div>
             <div class="sf-card-content">
               <div class="sf-card-tag">Spaces</div>
@@ -32,8 +35,7 @@
             </div>
           </a>
 
-          <!-- Cafés card -->
-          <a href="spots.html#cafes" class="sf-card sf-card-glow">
+          <a href="spots.html" class="sf-card sf-card-glow">
             <div class="sf-card-bg sf-card-bg-cafe"></div>
             <div class="sf-card-content">
               <div class="sf-card-tag">Cafés</div>
@@ -43,15 +45,86 @@
           </a>
         </div>
 
-        <a href="spots.html" class="sf-link-inline">Browse all spots →</a>
+        <a href="spots.html" class="sf-link-inline">
+          Browse all spots →
+        </a>
+      </section>
+
+      <!-- Preferences -->
+      <section class="sf-preferences">
+        <h2 class="sf-section-title">Your work preferences</h2>
+        <p class="sf-body-text">
+          Tell SpotFinder what you like. We’ll use this to adjust the match
+          percentage for each spot.
+        </p>
+
+        <div class="sf-note">
+          Tip: change these anytime – they’re stored only on this device.
+        </div>
+
+        <div class="sf-form-wrap">
+          <form id="sf-preferences-form" class="sf-form">
+            <div class="sf-field">
+              <span>WiFi quality</span>
+              <select name="wifi" required>
+                <option value="2">Normal – basic browsing</option>
+                <option value="3">Fast – video calls &amp; cloud tools</option>
+                <option value="1">Doesn’t matter much</option>
+              </select>
+            </div>
+
+            <div class="sf-field">
+              <span>Noise level</span>
+              <select name="noise" required>
+                <option value="1">Very quiet</option>
+                <option value="2">Soft background noise</option>
+                <option value="3">Lively café vibe</option>
+              </select>
+            </div>
+
+            <div class="sf-field">
+              <span>Temperature</span>
+              <select name="temp" required>
+                <option value="1">Cooler AC</option>
+                <option value="2">Balanced</option>
+                <option value="3">Slightly warm</option>
+              </select>
+            </div>
+
+            <div class="sf-field">
+              <span>Power outlets</span>
+              <select name="outlets" required>
+                <option value="3">Many outlets – I always plug in</option>
+                <option value="2">Some outlets is enough</option>
+                <option value="1">I don’t really need them</option>
+              </select>
+            </div>
+
+            <div class="sf-field">
+              <span>Seating &amp; desk comfort</span>
+              <select name="comfort" required>
+                <option value="3">Very important – long sessions</option>
+                <option value="2">Medium – 1–2 hours</option>
+                <option value="1">Not a big deal</option>
+              </select>
+            </div>
+
+            <div class="sf-bottom-action">
+              <button type="submit" class="sf-primary-btn">
+                Save preferences &amp; see matches
+              </button>
+            </div>
+          </form>
+        </div>
       </section>
     </main>
 
+    <!-- Bottom nav -->
     <nav class="sf-nav">
-      <a href="index.html" class="sf-nav-item sf-nav-item-active">Home</a>
-      <a href="spots.html" class="sf-nav-item">Spots</a>
-      <a href="add-spot.html" class="sf-nav-item">Add Spot</a>
-      <a href="about.html" class="sf-nav-item">About</a>
+      <a href="index.html" class="sf-nav-item" data-nav="home">Home</a>
+      <a href="spots.html" class="sf-nav-item" data-nav="spots">Spots</a>
+      <a href="add-spot.html" class="sf-nav-item" data-nav="add">Add Spot</a>
+      <a href="about.html" class="sf-nav-item" data-nav="about">About</a>
     </nav>
 
     <script src="assets/js/app.js"></script>
