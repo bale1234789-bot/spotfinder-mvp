@@ -226,7 +226,6 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-
 .sf-filter-tab {
   border: none;
   background: transparent;
@@ -455,19 +454,6 @@ body {
   box-shadow: var(--sf-shadow-soft);
 }
 
-.sf-field input,
-.sf-field select,
-.sf-field textarea {
-  border-radius: 10px;
-  border: 1px solid var(--sf-border);
-  background: #ffffff;
-  padding: 8px 10px;
-  color: var(--sf-text);
-  font-family: var(--sf-font);
-  font-size: 13px;
-}
-
-
 .sf-field {
   display: flex;
   flex-direction: column;
@@ -484,7 +470,7 @@ body {
 .sf-field textarea {
   border-radius: 10px;
   border: 1px solid var(--sf-border);
-  background: #050608;
+  background: #ffffff;
   padding: 8px 10px;
   color: var(--sf-text);
   font-family: var(--sf-font);
@@ -528,7 +514,6 @@ body {
   z-index: 20;
 }
 
-
 .sf-nav-item {
   flex: 1;
   text-align: center;
@@ -540,6 +525,7 @@ body {
 .sf-nav-item-active {
   color: var(--sf-accent);
 }
+
 
 /* Small screens tweak */
 @media (min-width: 600px) {
