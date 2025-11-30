@@ -221,9 +221,11 @@ body {
   display: inline-flex;
   padding: 4px;
   border-radius: var(--sf-radius-pill);
-  background: rgba(15, 18, 28, 0.9);
+  background: #ffffff;
   border: 1px solid var(--sf-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
+
 
 .sf-filter-tab {
   border: none;
@@ -446,11 +448,25 @@ body {
 }
 
 .sf-form {
-  background: rgba(11, 13, 20, 0.96);
+  background: #ffffff;
   border-radius: var(--sf-radius-lg);
   border: 1px solid var(--sf-border);
   padding: 14px;
+  box-shadow: var(--sf-shadow-soft);
 }
+
+.sf-field input,
+.sf-field select,
+.sf-field textarea {
+  border-radius: 10px;
+  border: 1px solid var(--sf-border);
+  background: #ffffff;
+  padding: 8px 10px;
+  color: var(--sf-text);
+  font-family: var(--sf-font);
+  font-size: 13px;
+}
+
 
 .sf-field {
   display: flex;
@@ -505,11 +521,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: rgba(5, 6, 8, 0.96);
-  border-top: 1px solid var(--sf-border);
-  backdrop-filter: blur(18px);
+  background: #ffffff;
+  border-top: 1px solid #d8dde5;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(8px);
   z-index: 20;
 }
+
 
 .sf-nav-item {
   flex: 1;
