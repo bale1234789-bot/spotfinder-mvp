@@ -1,55 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>SpotFinder | Find Your Perfect Work Spot</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-</head>
-<body class="sf-body">
-  <header class="sf-header">
-    <div class="sf-logo-wrap">
-      <div class="sf-logo-dot"></div>
-      <span class="sf-logo-text">SpotFinder</span>
-    </div>
-  </header>
-
-  <main class="sf-main">
-    <section class="sf-hero">
-      <h1 class="sf-hero-title">Where are you working today?</h1>
-      <p class="sf-hero-sub">Find cafés and workspaces that match how you like to work.</p>
-
-      <div class="sf-option-grid">
-        <a href="spots.html?type=workspace" class="sf-card sf-card-glow">
-          <div class="sf-card-bg sf-card-bg-workspace"></div>
-          <div class="sf-card-content">
-            <span class="sf-card-tag">Spaces</span>
-            <h2>Workspaces</h2>
-            <p>Offices, co-working spaces, and quiet study areas.</p>
-          </div>
-        </a>
-
-        <a href="spots.html?type=cafe" class="sf-card sf-card-glow">
-          <div class="sf-card-bg sf-card-bg-cafe"></div>
-          <div class="sf-card-content">
-            <span class="sf-card-tag">Cafés</span>
-            <h2>Work Cafes</h2>
-            <p>Study-friendly cafés with WiFi and power outlets.</p>
-          </div>
-        </a>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SpotFinder | Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="sf-body">
+    <header class="sf-header">
+      <div class="sf-logo-wrap">
+        <div class="sf-logo-dot"></div>
+        <span class="sf-logo-text">SpotFinder</span>
       </div>
+    </header>
 
-      <a href="spots.html" class="sf-link-inline">Browse all spots →</a>
-    </section>
-  </main>
+    <main class="sf-main">
+      <section class="sf-hero">
+        <h1 class="sf-hero-title">Where are you working today?</h1>
+        <p class="sf-hero-sub">
+          Find cafés and workspaces that match how you like to work.
+        </p>
 
-  <nav class="sf-nav">
-    <a href="index.html" class="sf-nav-item sf-nav-item-active">Home</a>
-    <a href="spots.html" class="sf-nav-item">Spots</a>
-    <a href="add-spot.html" class="sf-nav-item">Add Spot</a>
-    <a href="about.html" class="sf-nav-item">About</a>
-  </nav>
+        <div class="sf-option-grid">
+          <!-- Workspaces card -->
+          <a href="spots.html#workspaces" class="sf-card sf-card-glow">
+            <div class="sf-card-bg sf-card-bg-workspace"></div>
+            <div class="sf-card-content">
+              <div class="sf-card-tag">Spaces</div>
+              <h2>Workspaces</h2>
+              <p>Offices, co-working spaces, and quiet study areas.</p>
+            </div>
+          </a>
 
-  <script src="assets/js/app.js"></script>
-</body>
+          <!-- Cafés card -->
+          <a href="spots.html#cafes" class="sf-card sf-card-glow">
+            <div class="sf-card-bg sf-card-bg-cafe"></div>
+            <div class="sf-card-content">
+              <div class="sf-card-tag">Cafés</div>
+              <h2>Work Cafes</h2>
+              <p>Study-friendly cafés with WiFi and power outlets.</p>
+            </div>
+          </a>
+        </div>
+
+        <a href="spots.html" class="sf-link-inline">Browse all spots →</a>
+      </section>
+    </main>
+
+    <nav class="sf-nav">
+      <a href="index.html" class="sf-nav-item sf-nav-item-active">Home</a>
+      <a href="spots.html" class="sf-nav-item">Spots</a>
+      <a href="add-spot.html" class="sf-nav-item">Add Spot</a>
+      <a href="about.html" class="sf-nav-item">About</a>
+    </nav>
+
+    <script src="assets/js/app.js"></script>
+  </body>
 </html>
