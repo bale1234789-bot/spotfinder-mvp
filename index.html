@@ -2,75 +2,97 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>SpotFinder – Cafés & Workspaces</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpotFinder | Explore cafés & workspaces</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body class="sf-body">
-    <!-- HEADER -->
+    <!-- Top header -->
     <header class="sf-header">
       <div class="sf-logo-wrap">
-        <span class="sf-logo-dot"></span>
+        <div class="sf-logo-dot"></div>
         <span class="sf-logo-text">SpotFinder</span>
       </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="sf-main sf-main-no-top">
-      <!-- Page title -->
+    <!-- Main content -->
+    <main class="sf-main" id="explore-page">
       <section class="sf-page-head">
-        <h1 class="sf-hero-title-small">Near You &amp; Top Matches</h1>
-        <p class="sf-hero-sub">
-          Cafés and workspaces ranked using comfort, noise, WiFi, outlets, and temperature.
+        <h1 class="sf-page-title">Near You & Top Matches</h1>
+        <p class="sf-page-subtitle">
+          Cafés and workspaces ranked using comfort, noise, WiFi, outlets, and
+          temperature.
         </p>
       </section>
 
-      <!-- CATEGORY TABS (Cafés / Workspaces) -->
-      <section class="sf-category-tabs">
+      <!-- Category tabs: Cafés / Workspaces -->
+      <div class="sf-category-tabs">
         <button
           class="sf-category-tab sf-category-tab-active"
           data-category="cafe"
+          id="tab-cafes"
         >
           Cafés
         </button>
-        <button class="sf-category-tab" data-category="workspace">
+        <button
+          class="sf-category-tab"
+          data-category="workspace"
+          id="tab-workspaces"
+        >
           Workspaces
         </button>
-      </section>
+      </div>
 
-      <!-- FILTER STRIP (Jahez / Booking style) -->
-      <section class="sf-filter-toolbar">
-        <button class="sf-filter-main">
-          <span class="sf-filter-main-label">Filters</span>
-          <span class="sf-filter-main-value" id="sf-active-filters-label">
+      <!-- Filters -->
+      <section class="sf-filter-panel">
+        <div class="sf-filter-header">
+          <span class="sf-filter-title">Filters</span>
+          <span class="sf-filter-value" id="active-filter-label">
             No filters
           </span>
-        </button>
-
-        <div class="sf-filter-chip-row">
-          <button class="sf-filter-chip" data-filter-chip="quiet">
+        </div>
+        <div class="sf-filter-chips-row">
+          <button
+            class="sf-filter-chip"
+            data-filter="quiet"
+          >
             Quiet
           </button>
-          <button class="sf-filter-chip" data-filter-chip="strongWifi">
+          <button
+            class="sf-filter-chip"
+            data-filter="strong-wifi"
+          >
             Strong WiFi
           </button>
-          <button class="sf-filter-chip" data-filter-chip="manyOutlets">
+          <button
+            class="sf-filter-chip"
+            data-filter="many-outlets"
+          >
             Many outlets
           </button>
-          <button class="sf-filter-chip" data-filter-chip="ergonomic">
+          <button
+            class="sf-filter-chip"
+            data-filter="ergonomic"
+          >
             Ergonomic seating
           </button>
-          <button class="sf-filter-chip" data-filter-chip="coolTemp">
+          <button
+            class="sf-filter-chip"
+            data-filter="cool-temp"
+          >
             Cool temp
           </button>
         </div>
       </section>
 
-      <!-- SPOTS LIST -->
-      <section id="sf-spot-list" class="sf-list"></section>
+      <!-- List of spots -->
+      <section class="sf-list" id="spot-list"></section>
     </main>
 
-    <!-- BOTTOM NAV -->
+    <!-- Bottom nav -->
     <nav class="sf-nav">
       <a href="index.html" class="sf-nav-item sf-nav-item-active">Explore</a>
       <a href="about.html" class="sf-nav-item">About</a>
