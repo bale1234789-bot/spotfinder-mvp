@@ -2,129 +2,78 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>SpotFinder | Home</title>
+    <title>SpotFinder – Cafés & Workspaces</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-
-  <body class="sf-body" data-page="home">
-    <!-- Header -->
+  <body class="sf-body">
+    <!-- HEADER -->
     <header class="sf-header">
       <div class="sf-logo-wrap">
-        <div class="sf-logo-dot"></div>
+        <span class="sf-logo-dot"></span>
         <span class="sf-logo-text">SpotFinder</span>
       </div>
     </header>
 
-    <!-- Main -->
-    <main class="sf-main">
-      <!-- Hero -->
-      <section class="sf-hero">
-        <h1 class="sf-hero-title">Where are you working today?</h1>
+    <!-- MAIN CONTENT -->
+    <main class="sf-main sf-main-no-top">
+      <!-- Page title -->
+      <section class="sf-page-head">
+        <h1 class="sf-hero-title-small">Near You &amp; Top Matches</h1>
         <p class="sf-hero-sub">
-          Find cafés and workspaces that match how you like to work.
+          Cafés and workspaces ranked using comfort, noise, WiFi, outlets, and temperature.
         </p>
-
-        <div class="sf-option-grid">
-          <a href="spots.html" class="sf-card sf-card-glow">
-            <div class="sf-card-bg sf-card-bg-workspace"></div>
-            <div class="sf-card-content">
-              <div class="sf-card-tag">Spaces</div>
-              <h2>Workspaces</h2>
-              <p>Offices, co-working spaces, and quiet study areas.</p>
-            </div>
-          </a>
-
-          <a href="spots.html" class="sf-card sf-card-glow">
-            <div class="sf-card-bg sf-card-bg-cafe"></div>
-            <div class="sf-card-content">
-              <div class="sf-card-tag">Cafés</div>
-              <h2>Work Cafes</h2>
-              <p>Study-friendly cafés with WiFi and power outlets.</p>
-            </div>
-          </a>
-        </div>
-
-        <a href="spots.html" class="sf-link-inline">
-          Browse all spots →
-        </a>
       </section>
 
-      <!-- Preferences -->
-      <section class="sf-preferences">
-        <h2 class="sf-section-title">Your work preferences</h2>
-        <p class="sf-body-text">
-          Tell SpotFinder what you like. We’ll use this to adjust the match
-          percentage for each spot.
-        </p>
+      <!-- CATEGORY TABS (Cafés / Workspaces) -->
+      <section class="sf-category-tabs">
+        <button
+          class="sf-category-tab sf-category-tab-active"
+          data-category="cafe"
+        >
+          Cafés
+        </button>
+        <button class="sf-category-tab" data-category="workspace">
+          Workspaces
+        </button>
+      </section>
 
-        <div class="sf-note">
-          Tip: change these anytime – they’re stored only on this device.
-        </div>
+      <!-- FILTER STRIP (Jahez / Booking style) -->
+      <section class="sf-filter-toolbar">
+        <button class="sf-filter-main">
+          <span class="sf-filter-main-label">Filters</span>
+          <span class="sf-filter-main-value" id="sf-active-filters-label">
+            No filters
+          </span>
+        </button>
 
-        <div class="sf-form-wrap">
-          <form id="sf-preferences-form" class="sf-form">
-            <div class="sf-field">
-              <span>WiFi quality</span>
-              <select name="wifi" required>
-                <option value="2">Normal – basic browsing</option>
-                <option value="3">Fast – video calls &amp; cloud tools</option>
-                <option value="1">Doesn’t matter much</option>
-              </select>
-            </div>
-
-            <div class="sf-field">
-              <span>Noise level</span>
-              <select name="noise" required>
-                <option value="1">Very quiet</option>
-                <option value="2">Soft background noise</option>
-                <option value="3">Lively café vibe</option>
-              </select>
-            </div>
-
-            <div class="sf-field">
-              <span>Temperature</span>
-              <select name="temp" required>
-                <option value="1">Cooler AC</option>
-                <option value="2">Balanced</option>
-                <option value="3">Slightly warm</option>
-              </select>
-            </div>
-
-            <div class="sf-field">
-              <span>Power outlets</span>
-              <select name="outlets" required>
-                <option value="3">Many outlets – I always plug in</option>
-                <option value="2">Some outlets is enough</option>
-                <option value="1">I don’t really need them</option>
-              </select>
-            </div>
-
-            <div class="sf-field">
-              <span>Seating &amp; desk comfort</span>
-              <select name="comfort" required>
-                <option value="3">Very important – long sessions</option>
-                <option value="2">Medium – 1–2 hours</option>
-                <option value="1">Not a big deal</option>
-              </select>
-            </div>
-
-            <div class="sf-bottom-action">
-              <button type="submit" class="sf-primary-btn">
-                Save preferences &amp; see matches
-              </button>
-            </div>
-          </form>
+        <div class="sf-filter-chip-row">
+          <button class="sf-filter-chip" data-filter-chip="quiet">
+            Quiet
+          </button>
+          <button class="sf-filter-chip" data-filter-chip="strongWifi">
+            Strong WiFi
+          </button>
+          <button class="sf-filter-chip" data-filter-chip="manyOutlets">
+            Many outlets
+          </button>
+          <button class="sf-filter-chip" data-filter-chip="ergonomic">
+            Ergonomic seating
+          </button>
+          <button class="sf-filter-chip" data-filter-chip="coolTemp">
+            Cool temp
+          </button>
         </div>
       </section>
+
+      <!-- SPOTS LIST -->
+      <section id="sf-spot-list" class="sf-list"></section>
     </main>
 
-    <!-- Bottom nav -->
+    <!-- BOTTOM NAV -->
     <nav class="sf-nav">
-      <a href="index.html" class="sf-nav-item" data-nav="home">Home</a>
-      <a href="spots.html" class="sf-nav-item" data-nav="spots">Spots</a>
-      <a href="add-spot.html" class="sf-nav-item" data-nav="add">Add Spot</a>
-      <a href="about.html" class="sf-nav-item" data-nav="about">About</a>
+      <a href="index.html" class="sf-nav-item sf-nav-item-active">Explore</a>
+      <a href="about.html" class="sf-nav-item">About</a>
     </nav>
 
     <script src="assets/js/app.js"></script>
