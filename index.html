@@ -1,103 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>SpotFinder | Explore cafés & workspaces</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <link rel="stylesheet" href="assets/css/style.css" />
-  </head>
-  <body class="sf-body">
-    <!-- Top header -->
-    <header class="sf-header">
-      <div class="sf-logo-wrap">
-        <div class="sf-logo-dot"></div>
-        <span class="sf-logo-text">SpotFinder</span>
+<head>
+  <meta charset="UTF-8" />
+  <title>SpotFinder | Explore cafés & workspaces</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="sf-body">
+  <!-- Header -->
+  <header class="sf-header">
+    <div class="sf-logo-wrap">
+      <div class="sf-logo-dot"></div>
+      <span class="sf-logo-text">SpotFinder</span>
+    </div>
+  </header>
+
+  <main class="sf-main">
+    <!-- Hero -->
+    <section class="sf-hero">
+      <h1 class="sf-hero-title">Near You &amp; Top Matches</h1>
+      <p class="sf-hero-sub">
+        Cafés and workspaces ranked using comfort, noise, WiFi, outlets, and temperature.
+      </p>
+    </section>
+
+    <!-- Category toggle: Cafés / Workspaces -->
+    <section class="sf-toggle">
+      <button class="sf-toggle-btn sf-toggle-btn-active" data-category="cafe">
+        Cafés
+      </button>
+      <button class="sf-toggle-btn" data-category="workspace">
+        Workspaces
+      </button>
+    </section>
+
+    <!-- Filters -->
+    <section class="sf-filters">
+      <div class="sf-filters-header">
+        <span>Filters</span>
+        <span id="sf-active-filters-label" class="sf-filters-label">No filters</span>
       </div>
-    </header>
-
-    <!-- Main content -->
-    <main class="sf-main" id="explore-page">
-      <section class="sf-page-head">
-        <h1 class="sf-page-title">Near You & Top Matches</h1>
-        <p class="sf-page-subtitle">
-          Cafés and workspaces ranked using comfort, noise, WiFi, outlets, and
-          temperature.
-        </p>
-      </section>
-
-      <!-- Category tabs: Cafés / Workspaces -->
-      <div class="sf-category-tabs">
-        <button
-          class="sf-category-tab sf-category-tab-active"
-          data-category="cafe"
-          id="tab-cafes"
-        >
-          Cafés
-        </button>
-        <button
-          class="sf-category-tab"
-          data-category="workspace"
-          id="tab-workspaces"
-        >
-          Workspaces
-        </button>
+      <div class="sf-filter-chips">
+        <button class="sf-chip" data-filter="quiet">Quiet</button>
+        <button class="sf-chip" data-filter="strongWifi">Strong WiFi</button>
+        <button class="sf-chip" data-filter="manyOutlets">Many outlets</button>
+        <button class="sf-chip" data-filter="ergonomic">Ergonomic seating</button>
+        <button class="sf-chip" data-filter="coolTemp">Cool temp</button>
       </div>
+    </section>
 
-      <!-- Filters -->
-      <section class="sf-filter-panel">
-        <div class="sf-filter-header">
-          <span class="sf-filter-title">Filters</span>
-          <span class="sf-filter-value" id="active-filter-label">
-            No filters
-          </span>
-        </div>
-        <div class="sf-filter-chips-row">
-          <button
-            class="sf-filter-chip"
-            data-filter="quiet"
-          >
-            Quiet
-          </button>
-          <button
-            class="sf-filter-chip"
-            data-filter="strong-wifi"
-          >
-            Strong WiFi
-          </button>
-          <button
-            class="sf-filter-chip"
-            data-filter="many-outlets"
-          >
-            Many outlets
-          </button>
-          <button
-            class="sf-filter-chip"
-            data-filter="ergonomic"
-          >
-            Ergonomic seating
-          </button>
-          <button
-            class="sf-filter-chip"
-            data-filter="cool-temp"
-          >
-            Cool temp
-          </button>
-        </div>
-      </section>
+    <!-- Spots list -->
+    <section id="sf-spot-list" class="sf-list"></section>
+  </main>
 
-      <!-- List of spots -->
-      <section class="sf-list" id="spot-list"></section>
-    </main>
+  <!-- Bottom nav -->
+  <nav class="sf-nav">
+    <a href="index.html" class="sf-nav-item sf-nav-item-active">Explore</a>
+    <a href="about.html" class="sf-nav-item">About</a>
+  </nav>
 
-    <!-- Bottom nav -->
-    <nav class="sf-nav">
-      <a href="index.html" class="sf-nav-item sf-nav-item-active">Explore</a>
-      <a href="about.html" class="sf-nav-item">About</a>
-    </nav>
-
-    <script src="assets/js/app.js"></script>
-  </body>
+  <script src="assets/js/app.js"></script>
+</body>
 </html>
