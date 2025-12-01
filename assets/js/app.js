@@ -5,13 +5,15 @@ const spotsData = [
     id: "tim-hortons",
     name: "Tim Hortons – تيم هورتنز",
     type: "cafe",
-    image: "assets/img/tim-hortons.jpg",
+    image: "assets/img/tim-hortons.jpg", // make sure this file exists
     location: "Khobar, Saudi Arabia • 0.3 km",
     comfort: 4,
     noise: 2, // 1 = very quiet, 5 = very noisy
     wifi: 5,
     outlets: 4,
-    temp: 3 // 1 = cold, 3 = balanced, 5 = hot
+    temp: 3, // 1 = cold, 3 = balanced, 5 = hot
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=Tim+Hortons+Khobar+Saudi+Arabia"
   },
   {
     id: "equal",
@@ -23,7 +25,9 @@ const spotsData = [
     noise: 3,
     wifi: 4,
     outlets: 3,
-    temp: 3
+    temp: 3,
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=Equal+Cafe+Khobar+Saudi+Arabia"
   },
   {
     id: "tulum",
@@ -35,7 +39,9 @@ const spotsData = [
     noise: 2,
     wifi: 4,
     outlets: 4,
-    temp: 2
+    temp: 2,
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=Tulum+Cafe+Khobar+Saudi+Arabia"
   },
   {
     id: "wework",
@@ -47,7 +53,9 @@ const spotsData = [
     noise: 2,
     wifi: 5,
     outlets: 5,
-    temp: 3
+    temp: 3,
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=WeWork+Dhahran+Techno+Valley"
   },
   {
     id: "library",
@@ -59,7 +67,9 @@ const spotsData = [
     noise: 1,
     wifi: 4,
     outlets: 4,
-    temp: 3
+    temp: 3,
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=KFUPM+Library+Dhahran"
   }
 ];
 
@@ -195,9 +205,20 @@ function renderList() {
     meta.appendChild(matchPill);
     meta.appendChild(mini);
 
+    // --- NEW: "Open in Maps" button -----------------------------
+    const mapBtn = document.createElement("a");
+    mapBtn.className = "sf-map-btn";
+    mapBtn.href = spot.mapUrl;
+    mapBtn.target = "_blank"; // open Google Maps in new tab / app
+    mapBtn.rel = "noopener";
+    mapBtn.innerHTML = "Open in Maps";
+
+    // -------------------------------------------------------------
+
     main.appendChild(nameEl);
     main.appendChild(locEl);
     main.appendChild(meta);
+    main.appendChild(mapBtn);
 
     card.appendChild(img);
     card.appendChild(main);
