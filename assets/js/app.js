@@ -1,267 +1,326 @@
-// === Spot data ===================================================
+// =======================================
+// SpotFinder data
+// =======================================
 
-const spotsData = [
+const SPOTS_DATA = [
   {
-    id: "tim-hortons",
+    id: "tim-hortons-khobar",
     name: "Tim Hortons – تيم هورتنز",
     type: "cafe",
+    city: "Khobar, Saudi Arabia",
+    distanceKm: 0.3,
+    matchScore: 98,
     image: "assets/img/tim-hortons.jpg", // make sure this file exists
-    location: "Khobar, Saudi Arabia • 0.3 km",
-    comfort: 4,
-    noise: 2, // 1 = very quiet, 5 = very noisy
-    wifi: 5,
-    outlets: 4,
-    temp: 3, // 1 = cold, 3 = balanced, 5 = hot
-    mapUrl:
-      "https://www.google.com/maps/search/?api=1&query=Tim+Hortons+Khobar+Saudi+Arabia"
+    metrics: {
+      comfort: "4/5",
+      noise: "Quiet",
+      wifi: "Fast",
+      outlets: "5/5",
+      temperature: "Cool"
+    },
+    tags: ["quiet", "strong-wifi", "many-outlets", "cool-temp"],
+    features: [
+      "Plenty of power outlets near almost every table.",
+      "Stable WiFi, good enough for video calls.",
+      "Comfortable seating for long study sessions.",
+      "Usually has a quiet zone at the back."
+    ],
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Tim+Hortons,+Khobar,+Saudi+Arabia"
   },
   {
-    id: "equal",
+    id: "equal-cafe-khobar",
     name: "Equal Café – إيكوال",
     type: "cafe",
-    image: "assets/img/equal.jpg",
-    location: "Khobar, Saudi Arabia • 2.8 km",
-    comfort: 4,
-    noise: 3,
-    wifi: 4,
-    outlets: 3,
-    temp: 3,
-    mapUrl:
-      "https://www.google.com/maps/search/?api=1&query=Equal+Cafe+Khobar+Saudi+Arabia"
+    city: "Khobar, Saudi Arabia",
+    distanceKm: 2.8,
+    matchScore: 92,
+    image: "assets/img/equal-cafe.jpg",
+    metrics: {
+      comfort: "4/5",
+      noise: "Moderate",
+      wifi: "Fast",
+      outlets: "4/5",
+      temperature: "Balanced"
+    },
+    tags: ["strong-wifi", "ergonomic"],
+    features: [
+      "Modern interior with ergonomic chairs and big tables.",
+      "Good WiFi with many people working on laptops.",
+      "Great for small group meetings (2–4 people)."
+    ],
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Equal+Cafe,+Khobar,+Saudi+Arabia"
   },
   {
-    id: "tulum",
-    name: "Tulum Café – تولوم",
+    id: "tulum-cafe-khobar",
+    name: "Tulum Café – كافيه تولوم",
     type: "cafe",
-    image: "assets/img/tulum.jpg",
-    location: "Khobar, Saudi Arabia • 2.7 km",
-    comfort: 5,
-    noise: 2,
-    wifi: 4,
-    outlets: 4,
-    temp: 2,
-    mapUrl:
-      "https://www.google.com/maps/search/?api=1&query=Tulum+Cafe+Khobar+Saudi+Arabia"
+    city: "Khobar, Saudi Arabia",
+    distanceKm: 2.7,
+    matchScore: 90,
+    image: "assets/img/tulum-cafe.jpg",
+    metrics: {
+      comfort: "4/5",
+      noise: "Quiet",
+      wifi: "Good",
+      outlets: "4/5",
+      temperature: "Cool"
+    },
+    tags: ["quiet", "many-outlets", "cool-temp"],
+    features: [
+      "Calm vibe with music at a low volume.",
+      "Plenty of wall outlets around the sides.",
+      "Nice lighting for late-night study."
+    ],
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Tulum+Cafe,+Khobar,+Saudi+Arabia"
   },
   {
-    id: "wework",
-    name: "WeWork – Shared Office",
+    id: "wework-dhahran",
+    name: "WeWork Dhahran",
     type: "workspace",
+    city: "Dhahran, Saudi Arabia",
+    distanceKm: 6.2,
+    matchScore: 94,
     image: "assets/img/workspace.jpg",
-    location: "Dhahran Techno Valley • 1.4 km",
-    comfort: 5,
-    noise: 2,
-    wifi: 5,
-    outlets: 5,
-    temp: 3,
-    mapUrl:
-      "https://www.google.com/maps/search/?api=1&query=WeWork+Dhahran+Techno+Valley"
-  },
-  {
-    id: "library",
-    name: "KFUPM Library Study Hall",
-    type: "workspace",
-    image: "assets/img/library.jpg",
-    location: "KFUPM Campus • 0.6 km",
-    comfort: 4,
-    noise: 1,
-    wifi: 4,
-    outlets: 4,
-    temp: 3,
-    mapUrl:
-      "https://www.google.com/maps/search/?api=1&query=KFUPM+Library+Dhahran"
+    metrics: {
+      comfort: "5/5",
+      noise: "Quiet",
+      wifi: "Enterprise",
+      outlets: "Every desk",
+      temperature: "Balanced"
+    },
+    tags: ["quiet", "strong-wifi", "many-outlets", "ergonomic"],
+    features: [
+      "Dedicated desks and ergonomic chairs.",
+      "Meeting rooms for teams and calls.",
+      "High-speed enterprise WiFi.",
+      "Printer / scanner and other office utilities."
+    ],
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=WeWork,+Dhahran,+Saudi+Arabia"
   }
 ];
 
-// === State =======================================================
+// =======================================
+// Explore page (list)
+// =======================================
 
-let activeCategory = "cafe"; // default: Cafés
-const activeFilters = {
-  quiet: false,
-  strongWifi: false,
-  manyOutlets: false,
-  ergonomic: false,
-  coolTemp: false
-};
+function initExplorePage() {
+  const listEl = document.getElementById("spot-list");
+  if (!listEl) return; // not on this page
 
-// === Utility: compute match % based on activeFilters ==============
-
-function computeMatch(spot) {
-  // base score; we want it to look nice even with no filters
-  let score = 88;
-
-  // Quiet
-  if (activeFilters.quiet) {
-    score += spot.noise <= 2 ? 7 : -7;
-  }
-
-  // Strong WiFi
-  if (activeFilters.strongWifi) {
-    score += spot.wifi >= 4 ? 6 : -6;
-  }
-
-  // Many outlets
-  if (activeFilters.manyOutlets) {
-    score += spot.outlets >= 4 ? 5 : -5;
-  }
-
-  // Ergonomic seating (comfort)
-  if (activeFilters.ergonomic) {
-    score += spot.comfort >= 4 ? 5 : -5;
-  }
-
-  // Cool temperature (slightly on the cold side)
-  if (activeFilters.coolTemp) {
-    score += spot.temp <= 2 ? 5 : -5;
-  }
-
-  if (!Object.values(activeFilters).some(Boolean)) {
-    // No filters → just show a nice range
-    score += (spot.comfort - 3) * 2;
-  }
-
-  // clamp
-  score = Math.max(60, Math.min(99, score));
-  return Math.round(score);
-}
-
-function describeFilters() {
-  const active = Object.entries(activeFilters)
-    .filter(([, v]) => v)
-    .map(([key]) => {
-      switch (key) {
-        case "quiet":
-          return "Quiet";
-        case "strongWifi":
-          return "Strong WiFi";
-        case "manyOutlets":
-          return "Many outlets";
-        case "ergonomic":
-          return "Ergonomic seating";
-        case "coolTemp":
-          return "Cool temp";
-        default:
-          return key;
-      }
-    });
-
-  if (active.length === 0) return "No filters";
-  if (active.length === 1) return active[0];
-  if (active.length === 2) return active.join(" • ");
-  return `${active[0]} + ${active.length - 1} more`;
-}
-
-// === Rendering ===================================================
-
-const listEl = document.getElementById("sf-spot-list");
-const filterLabelEl = document.getElementById("sf-active-filters-label");
-
-function renderList() {
-  if (!listEl) return;
-
-  listEl.innerHTML = "";
-
-  const visibleSpots = spotsData.filter(
-    (spot) => spot.type === activeCategory
+  const tabCafes = document.getElementById("tab-cafes");
+  const tabWorkspaces = document.getElementById("tab-workspaces");
+  const filterChips = Array.from(
+    document.querySelectorAll(".sf-filter-chip")
   );
+  const activeFilterLabel = document.getElementById("active-filter-label");
 
-  visibleSpots.forEach((spot) => {
-    const match = computeMatch(spot);
+  let currentCategory = "cafe"; // default: Cafés
+  const activeFilters = new Set();
 
-    const card = document.createElement("article");
-    card.className = "sf-spot-card";
+  function updateFilterLabel() {
+    if (activeFilters.size === 0) {
+      activeFilterLabel.textContent = "No filters";
+    } else {
+      activeFilterLabel.textContent = Array.from(activeFilters)
+        .map((f) => {
+          switch (f) {
+            case "quiet":
+              return "Quiet";
+            case "strong-wifi":
+              return "Strong WiFi";
+            case "many-outlets":
+              return "Many outlets";
+            case "ergonomic":
+              return "Ergonomic seating";
+            case "cool-temp":
+              return "Cool temp";
+            default:
+              return f;
+          }
+        })
+        .join(", ");
+    }
+  }
 
-    const img = document.createElement("img");
-    img.className = "sf-spot-img";
-    img.src = spot.image;
-    img.alt = spot.name;
+  function getFilteredSpots() {
+    return SPOTS_DATA.filter((spot) => {
+      if (spot.type !== currentCategory) return false;
+      if (activeFilters.size === 0) return true;
+      // every active filter must exist in spot.tags
+      for (const filter of activeFilters) {
+        if (!spot.tags.includes(filter)) return false;
+      }
+      return true;
+    }).sort((a, b) => b.matchScore - a.matchScore);
+  }
 
-    const main = document.createElement("div");
-    main.className = "sf-spot-main";
+  function renderList() {
+    const spots = getFilteredSpots();
+    listEl.innerHTML = "";
 
-    const nameEl = document.createElement("h2");
-    nameEl.className = "sf-spot-name";
-    nameEl.textContent = spot.name;
+    if (spots.length === 0) {
+      listEl.innerHTML =
+        '<p class="sf-body-text">No spots match these filters yet.</p>';
+      return;
+    }
 
-    const locEl = document.createElement("p");
-    locEl.className = "sf-spot-location";
-    locEl.textContent = spot.location;
+    spots.forEach((spot) => {
+      const card = document.createElement("a");
+      card.className = "sf-spot-card";
+      card.href = `spot.html?id=${encodeURIComponent(spot.id)}`;
 
-    const meta = document.createElement("div");
-    meta.className = "sf-spot-meta";
+      card.innerHTML = `
+        <img
+          src="${spot.image}"
+          alt="${spot.name}"
+          class="sf-spot-img"
+        />
+        <div class="sf-spot-main">
+          <p class="sf-spot-name">${spot.name}</p>
+          <p class="sf-spot-location">
+            ${spot.city} • ${spot.distanceKm.toFixed(1)} km
+          </p>
+          <div class="sf-spot-meta">
+            <span class="sf-match-pill">${spot.matchScore}% Match</span>
+            <div class="sf-mini-metrics">
+              <span>💺 ${spot.metrics.comfort}</span>
+              <span>📶 ${spot.metrics.wifi}</span>
+              <span>🔌 ${spot.metrics.outlets}</span>
+            </div>
+          </div>
+        </div>
+      `;
 
-    const matchPill = document.createElement("span");
-    matchPill.className = "sf-match-pill";
-    matchPill.textContent = `${match}% Match`;
+      listEl.appendChild(card);
+    });
+  }
 
-    const mini = document.createElement("div");
-    mini.className = "sf-mini-metrics";
-    mini.innerHTML = `
-      <span>☕ Comfort ${spot.comfort}/5</span>
-      <span>📶 WiFi ${spot.wifi}/5</span>
-      <span>🔌 Outlets ${spot.outlets}/5</span>
-    `;
-
-    meta.appendChild(matchPill);
-    meta.appendChild(mini);
-
-    // --- NEW: "Open in Maps" button -----------------------------
-    const mapBtn = document.createElement("a");
-    mapBtn.className = "sf-map-btn";
-    mapBtn.href = spot.mapUrl;
-    mapBtn.target = "_blank"; // open Google Maps in new tab / app
-    mapBtn.rel = "noopener";
-    mapBtn.innerHTML = "Open in Maps";
-
-    // -------------------------------------------------------------
-
-    main.appendChild(nameEl);
-    main.appendChild(locEl);
-    main.appendChild(meta);
-    main.appendChild(mapBtn);
-
-    card.appendChild(img);
-    card.appendChild(main);
-
-    listEl.appendChild(card);
+  // category tab handlers
+  tabCafes.addEventListener("click", () => {
+    currentCategory = "cafe";
+    tabCafes.classList.add("sf-category-tab-active");
+    tabWorkspaces.classList.remove("sf-category-tab-active");
+    renderList();
   });
 
-  if (filterLabelEl) {
-    filterLabelEl.textContent = describeFilters();
-  }
+  tabWorkspaces.addEventListener("click", () => {
+    currentCategory = "workspace";
+    tabWorkspaces.classList.add("sf-category-tab-active");
+    tabCafes.classList.remove("sf-category-tab-active");
+    renderList();
+  });
+
+  // filter chips toggle
+  filterChips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const filter = chip.dataset.filter;
+      if (activeFilters.has(filter)) {
+        activeFilters.delete(filter);
+        chip.classList.remove("sf-filter-chip-active");
+      } else {
+        activeFilters.add(filter);
+        chip.classList.add("sf-filter-chip-active");
+      }
+      updateFilterLabel();
+      renderList();
+    });
+  });
+
+  // initial render
+  updateFilterLabel();
+  renderList();
 }
 
-// === Event wiring =================================================
+// =======================================
+// Detail page (single spot)
+// =======================================
 
-// Category tabs (Cafés / Workspaces)
-document.querySelectorAll(".sf-category-tab").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const category = btn.getAttribute("data-category");
-    if (!category || category === activeCategory) return;
+function initDetailPage() {
+  const detailContainer = document.getElementById("spot-detail");
+  if (!detailContainer) return; // not on this page
 
-    activeCategory = category;
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
 
-    document
-      .querySelectorAll(".sf-category-tab")
-      .forEach((b) => b.classList.remove("sf-category-tab-active"));
-    btn.classList.add("sf-category-tab-active");
+  const spot =
+    SPOTS_DATA.find((s) => s.id === id) || SPOTS_DATA.find((s) => s.type === "cafe");
 
-    renderList();
+  if (!spot) {
+    detailContainer.innerHTML =
+      '<p class="sf-body-text">Spot not found.</p>';
+    return;
+  }
+
+  detailContainer.innerHTML = `
+    <article class="sf-spot-detail">
+      <img
+        src="${spot.image}"
+        alt="${spot.name}"
+        class="sf-detail-img"
+      />
+
+      <h1 class="sf-detail-name">${spot.name}</h1>
+      <p class="sf-detail-location">
+        ${spot.city} • ${spot.distanceKm.toFixed(1)} km
+      </p>
+      <div class="sf-detail-match">${spot.matchScore}% Match</div>
+
+      <div class="sf-detail-metrics">
+        <div class="sf-detail-metric-row">
+          <span class="sf-detail-metric-label">Comfort</span>
+          <span class="sf-detail-metric-value">${spot.metrics.comfort}</span>
+        </div>
+        <div class="sf-detail-metric-row">
+          <span class="sf-detail-metric-label">Noise</span>
+          <span class="sf-detail-metric-value">${spot.metrics.noise}</span>
+        </div>
+        <div class="sf-detail-metric-row">
+          <span class="sf-detail-metric-label">WiFi</span>
+          <span class="sf-detail-metric-value">${spot.metrics.wifi}</span>
+        </div>
+        <div class="sf-detail-metric-row">
+          <span class="sf-detail-metric-label">Outlets</span>
+          <span class="sf-detail-metric-value">${spot.metrics.outlets}</span>
+        </div>
+        <div class="sf-detail-metric-row">
+          <span class="sf-detail-metric-label">Temperature</span>
+          <span class="sf-detail-metric-value">${spot.metrics.temperature}</span>
+        </div>
+      </div>
+
+      <h2 class="sf-detail-section-title">Why this spot works</h2>
+      <ul class="sf-detail-features">
+        ${spot.features.map((f) => `<li>${f}</li>`).join("")}
+      </ul>
+
+      <div class="sf-bottom-action">
+        <button class="sf-primary-btn" id="take-me-btn">
+          Take me to the place
+        </button>
+        <p class="sf-note">
+          Opens Google Maps with directions to the spot.
+        </p>
+      </div>
+    </article>
+  `;
+
+  const takeMeBtn = document.getElementById("take-me-btn");
+  takeMeBtn.addEventListener("click", () => {
+    if (spot.mapsUrl) {
+      window.open(spot.mapsUrl, "_blank");
+    }
   });
+}
+
+// =======================================
+// Init
+// =======================================
+
+document.addEventListener("DOMContentLoaded", () => {
+  initExplorePage();
+  initDetailPage();
 });
-
-// Filter chips
-document.querySelectorAll("[data-filter-chip]").forEach((chip) => {
-  chip.addEventListener("click", () => {
-    const key = chip.getAttribute("data-filter-chip");
-    if (!key || !(key in activeFilters)) return;
-
-    activeFilters[key] = !activeFilters[key];
-    chip.classList.toggle("sf-filter-chip-active", activeFilters[key]);
-
-    renderList();
-  });
-});
-
-// Initial render
-renderList();
