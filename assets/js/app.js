@@ -1,246 +1,246 @@
-// SpotFinder MVP logic
-// - Stores user preferences in localStorage
-// - Computes match % for each spot
-// - Renders spots list
-// - Highlights active nav item
+// === Spot data ===================================================
 
-const STORAGE_KEY = "sfPreferences";
-
-/**
- * Default preferences (1–3 scale)
- */
-const defaultPreferences = {
-  wifi: 2,
-  noise: 2,
-  temp: 2,
-  outlets: 2,
-  comfort: 2,
-};
-
-/**
- * Hard-coded spots data for MVP
- * metrics are on the same 1–3 scale
- */
 const spotsData = [
   {
-    id: "tim",
+    id: "tim-hortons",
     name: "Tim Hortons – تيم هورتنز",
-    location: "Khobar, Saudi Arabia • 0.3 km",
     type: "cafe",
-    img: "assets/img/tim.jpg",
-    metrics: {
-      wifi: 3,
-      noise: 1, // quieter
-      temp: 2,
-      outlets: 3,
-      comfort: 3,
-    },
-    link: "spot-tim-hortons.html",
-    mini: {
-      wifi: "📶 Great",
-      noise: "🔈 Quiet Zone",
-      outlets: "🔌 5",
-    },
+    image: "assets/img/tim-hortons.jpg",
+    location: "Khobar, Saudi Arabia • 0.3 km",
+    comfort: 4,
+    noise: 2, // 1 = very quiet, 5 = very noisy
+    wifi: 5,
+    outlets: 4,
+    temp: 3 // 1 = cold, 3 = balanced, 5 = hot
   },
   {
     id: "equal",
-    name: "Equal – ايكوال",
-    location: "Khobar, Saudi Arabia • 2.8 km",
+    name: "Equal Café – إيكوال",
     type: "cafe",
-    img: "assets/img/equal.jpg",
-    metrics: {
-      wifi: 3,
-      noise: 2,
-      temp: 2,
-      outlets: 2,
-      comfort: 2,
-    },
-    link: "spot-equal.html",
-    mini: {
-      wifi: "📶 Great",
-      noise: "🔈 Moderate",
-      outlets: "🔌 3",
-    },
+    image: "assets/img/equal.jpg",
+    location: "Khobar, Saudi Arabia • 2.8 km",
+    comfort: 4,
+    noise: 3,
+    wifi: 4,
+    outlets: 3,
+    temp: 3
   },
   {
     id: "tulum",
-    name: "Tulum Café – كافيه تلم",
-    location: "Khobar, Saudi Arabia • 2.7 km",
+    name: "Tulum Café – تولوم",
     type: "cafe",
-    img: "assets/img/tulum.jpg",
-    metrics: {
-      wifi: 3,
-      noise: 1,
-      temp: 2,
-      outlets: 3,
-      comfort: 3,
-    },
-    link: "spot-tulum.html",
-    mini: {
-      wifi: "📶 Great",
-      noise: "🔈 Quiet",
-      outlets: "🔌 4",
-    },
+    image: "assets/img/tulum.jpg",
+    location: "Khobar, Saudi Arabia • 2.7 km",
+    comfort: 5,
+    noise: 2,
+    wifi: 4,
+    outlets: 4,
+    temp: 2
   },
+  {
+    id: "wework",
+    name: "WeWork – Shared Office",
+    type: "workspace",
+    image: "assets/img/workspace.jpg",
+    location: "Dhahran Techno Valley • 1.4 km",
+    comfort: 5,
+    noise: 2,
+    wifi: 5,
+    outlets: 5,
+    temp: 3
+  },
+  {
+    id: "library",
+    name: "KFUPM Library Study Hall",
+    type: "workspace",
+    image: "assets/img/library.jpg",
+    location: "KFUPM Campus • 0.6 km",
+    comfort: 4,
+    noise: 1,
+    wifi: 4,
+    outlets: 4,
+    temp: 3
+  }
 ];
 
-/**
- * Read preferences from localStorage
- */
-function getPreferences() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { ...defaultPreferences };
-    const parsed = JSON.parse(raw);
-    return { ...defaultPreferences, ...parsed };
-  } catch (e) {
-    console.warn("Failed to read preferences, using defaults", e);
-    return { ...defaultPreferences };
-  }
-}
+// === State =======================================================
 
-/**
- * Save preferences to localStorage
- */
-function savePreferences(prefs) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
-  } catch (e) {
-    console.warn("Failed to save preferences", e);
-  }
-}
+let activeCategory = "cafe"; // default: Cafés
+const activeFilters = {
+  quiet: false,
+  strongWifi: false,
+  manyOutlets: false,
+  ergonomic: false,
+  coolTemp: false
+};
 
-/**
- * Simple match score (0–100)
- * smaller difference between spot and preferences => higher score
- */
-function calculateMatch(spotMetrics, prefs) {
-  let totalDiff = 0;
-  let count = 0;
+// === Utility: compute match % based on activeFilters ==============
 
-  for (const key of Object.keys(defaultPreferences)) {
-    if (spotMetrics[key] == null) continue;
-    const diff = Math.abs((spotMetrics[key] || 2) - (prefs[key] || 2));
-    totalDiff += diff;
-    count++;
+function computeMatch(spot) {
+  // base score; we want it to look nice even with no filters
+  let score = 88;
+
+  // Quiet
+  if (activeFilters.quiet) {
+    score += spot.noise <= 2 ? 7 : -7;
   }
 
-  const maxDiffPerMetric = 2; // scale 1–3 => max diff = 2
-  const maxDiff = maxDiffPerMetric * count || 1;
-  const closeness = 1 - totalDiff / maxDiff; // 0..1
-
-  // Base between 60% and 100%
-  const score = Math.round(60 + closeness * 40);
-  return Math.max(40, Math.min(100, score));
-}
-
-/**
- * Init preferences form on home page
- */
-function initPreferencesForm() {
-  const form = document.getElementById("sf-preferences-form");
-  if (!form) return;
-
-  const prefs = getPreferences();
-
-  // Fill current values
-  for (const [key, value] of Object.entries(prefs)) {
-    const field = form.elements.namedItem(key);
-    if (field) field.value = String(value);
+  // Strong WiFi
+  if (activeFilters.strongWifi) {
+    score += spot.wifi >= 4 ? 6 : -6;
   }
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
-    const newPrefs = { ...defaultPreferences };
+  // Many outlets
+  if (activeFilters.manyOutlets) {
+    score += spot.outlets >= 4 ? 5 : -5;
+  }
 
-    for (const key of Object.keys(defaultPreferences)) {
-      const raw = formData.get(key);
-      if (raw != null) newPrefs[key] = Number(raw);
-    }
+  // Ergonomic seating (comfort)
+  if (activeFilters.ergonomic) {
+    score += spot.comfort >= 4 ? 5 : -5;
+  }
 
-    savePreferences(newPrefs);
+  // Cool temperature (slightly on the cold side)
+  if (activeFilters.coolTemp) {
+    score += spot.temp <= 2 ? 5 : -5;
+  }
 
-    // Simple feedback + go to Spots page
-    alert("Preferences saved! We’ll adjust matches for you.");
-    window.location.href = "spots.html";
-  });
+  if (!Object.values(activeFilters).some(Boolean)) {
+    // No filters → just show a nice range
+    score += (spot.comfort - 3) * 2;
+  }
+
+  // clamp
+  score = Math.max(60, Math.min(99, score));
+  return Math.round(score);
 }
 
-/**
- * Render spots on Spots page
- */
-function renderSpots() {
-  const list = document.getElementById("sf-spot-list");
-  if (!list) return;
-
-  const prefs = getPreferences();
-  let currentFilter = "all";
-
-  function draw() {
-    list.innerHTML = "";
-    spotsData.forEach((spot) => {
-      if (currentFilter !== "all" && spot.type !== currentFilter) return;
-
-      const match = calculateMatch(spot.metrics, prefs);
-
-      const card = document.createElement("a");
-      card.href = spot.link;
-      card.className = "sf-spot-card";
-      card.innerHTML = `
-        <img class="sf-spot-img" src="${spot.img}" alt="${spot.name}" />
-        <div class="sf-spot-main">
-          <h2 class="sf-spot-name">${spot.name}</h2>
-          <p class="sf-spot-location">${spot.location}</p>
-          <div class="sf-spot-meta">
-            <span class="sf-match-pill">${match}% Match</span>
-            <div class="sf-mini-metrics">
-              <span>${spot.mini.wifi}</span>
-              <span>${spot.mini.noise}</span>
-              <span>${spot.mini.outlets}</span>
-            </div>
-          </div>
-        </div>
-      `;
-      list.appendChild(card);
+function describeFilters() {
+  const active = Object.entries(activeFilters)
+    .filter(([, v]) => v)
+    .map(([key]) => {
+      switch (key) {
+        case "quiet":
+          return "Quiet";
+        case "strongWifi":
+          return "Strong WiFi";
+        case "manyOutlets":
+          return "Many outlets";
+        case "ergonomic":
+          return "Ergonomic seating";
+        case "coolTemp":
+          return "Cool temp";
+        default:
+          return key;
+      }
     });
-  }
 
-  // Filters
-  const tabs = document.querySelectorAll(
-    "#sf-filter-tabs .sf-filter-tab"
+  if (active.length === 0) return "No filters";
+  if (active.length === 1) return active[0];
+  if (active.length === 2) return active.join(" • ");
+  return `${active[0]} + ${active.length - 1} more`;
+}
+
+// === Rendering ===================================================
+
+const listEl = document.getElementById("sf-spot-list");
+const filterLabelEl = document.getElementById("sf-active-filters-label");
+
+function renderList() {
+  if (!listEl) return;
+
+  listEl.innerHTML = "";
+
+  const visibleSpots = spotsData.filter(
+    (spot) => spot.type === activeCategory
   );
-  tabs.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      tabs.forEach((b) => b.classList.remove("sf-filter-tab-active"));
-      btn.classList.add("sf-filter-tab-active");
-      currentFilter = btn.dataset.filter || "all";
-      draw();
-    });
+
+  visibleSpots.forEach((spot) => {
+    const match = computeMatch(spot);
+
+    const card = document.createElement("article");
+    card.className = "sf-spot-card";
+
+    const img = document.createElement("img");
+    img.className = "sf-spot-img";
+    img.src = spot.image;
+    img.alt = spot.name;
+
+    const main = document.createElement("div");
+    main.className = "sf-spot-main";
+
+    const nameEl = document.createElement("h2");
+    nameEl.className = "sf-spot-name";
+    nameEl.textContent = spot.name;
+
+    const locEl = document.createElement("p");
+    locEl.className = "sf-spot-location";
+    locEl.textContent = spot.location;
+
+    const meta = document.createElement("div");
+    meta.className = "sf-spot-meta";
+
+    const matchPill = document.createElement("span");
+    matchPill.className = "sf-match-pill";
+    matchPill.textContent = `${match}% Match`;
+
+    const mini = document.createElement("div");
+    mini.className = "sf-mini-metrics";
+    mini.innerHTML = `
+      <span>☕ Comfort ${spot.comfort}/5</span>
+      <span>📶 WiFi ${spot.wifi}/5</span>
+      <span>🔌 Outlets ${spot.outlets}/5</span>
+    `;
+
+    meta.appendChild(matchPill);
+    meta.appendChild(mini);
+
+    main.appendChild(nameEl);
+    main.appendChild(locEl);
+    main.appendChild(meta);
+
+    card.appendChild(img);
+    card.appendChild(main);
+
+    listEl.appendChild(card);
   });
 
-  draw();
+  if (filterLabelEl) {
+    filterLabelEl.textContent = describeFilters();
+  }
 }
 
-/**
- * Highlight active nav item based on body[data-page]
- */
-function highlightNav() {
-  const page = document.body.dataset.page;
-  const nav = document.querySelector(".sf-nav");
-  if (!nav || !page) return;
+// === Event wiring =================================================
 
-  nav.querySelectorAll(".sf-nav-item").forEach((item) => {
-    const target = item.dataset.nav;
-    item.classList.toggle("sf-nav-item-active", target === page);
+// Category tabs (Cafés / Workspaces)
+document.querySelectorAll(".sf-category-tab").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const category = btn.getAttribute("data-category");
+    if (!category || category === activeCategory) return;
+
+    activeCategory = category;
+
+    document
+      .querySelectorAll(".sf-category-tab")
+      .forEach((b) => b.classList.remove("sf-category-tab-active"));
+    btn.classList.add("sf-category-tab-active");
+
+    renderList();
   });
-}
-
-// ===== Bootstrapping =====
-document.addEventListener("DOMContentLoaded", () => {
-  highlightNav();
-
-  const page = document.body.dataset.page;
-  if (page === "home") initPreferencesForm();
-  if (page === "spots") renderSpots();
 });
+
+// Filter chips
+document.querySelectorAll("[data-filter-chip]").forEach((chip) => {
+  chip.addEventListener("click", () => {
+    const key = chip.getAttribute("data-filter-chip");
+    if (!key || !(key in activeFilters)) return;
+
+    activeFilters[key] = !activeFilters[key];
+    chip.classList.toggle("sf-filter-chip-active", activeFilters[key]);
+
+    renderList();
+  });
+});
+
+// Initial render
+renderList();
