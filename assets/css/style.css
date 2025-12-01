@@ -1,4 +1,7 @@
-/* Global reset */
+/* ================================
+   Global reset & variables
+   ================================ */
+
 *,
 *::before,
 *::after {
@@ -37,7 +40,10 @@ body {
   padding: 0;
 }
 
-/* App background */
+/* ================================
+   App shell
+   ================================ */
+
 .sf-body {
   min-height: 100vh;
   background: radial-gradient(circle at top, #ffffff 0, #f5f5f7 55%);
@@ -48,7 +54,7 @@ body {
   align-items: center;
 }
 
-/* Layout wrappers */
+/* Content wrapper (below header, above bottom nav) */
 .sf-main {
   width: 100%;
   max-width: var(--sf-max-width);
@@ -56,11 +62,22 @@ body {
     calc(var(--sf-nav-height) + 24px);
 }
 
-.sf-main-no-top {
-  padding-top: calc(var(--sf-header-height) + 16px);
+.sf-main-about {
+  width: 100%;
+  max-width: var(--sf-max-width);
+  padding: calc(var(--sf-header-height) + 16px) 16px
+    calc(var(--sf-nav-height) + 24px);
 }
 
-/* Header */
+/* When a page does not need extra top padding */
+.sf-main-no-top {
+  padding-top: 0;
+}
+
+/* ================================
+   Header (top bar)
+   ================================ */
+
 .sf-header {
   position: fixed;
   top: 0;
@@ -98,41 +115,129 @@ body {
   font-size: 15px;
 }
 
-/* Page head */
-.sf-page-head {
-  margin-bottom: 12px;
+/* ================================
+   Headings / intro
+   ================================ */
+
+.sf-page-title {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0 0 8px;
 }
 
-.sf-hero-title-small {
-  font-size: 24px;
-  margin: 0 0 4px;
-}
-
-.sf-hero-sub {
-  margin: 0 0 12px;
+.sf-page-subtitle {
+  margin: 0 0 16px;
   font-size: 14px;
   color: var(--sf-text-soft);
 }
 
-/* CATEGORY TABS (Cafés / Workspaces) */
+/* ================================
+   Home hero cards (optional)
+   ================================ */
+
+.sf-option-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.sf-card {
+  position: relative;
+  border-radius: var(--sf-radius-lg);
+  overflow: hidden;
+  padding: 14px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--sf-shadow-soft);
+  background: #ffffff;
+}
+
+.sf-card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.9);
+  opacity: 0.9;
+}
+
+.sf-card-bg-workspace {
+  background-image: url("../img/workspace.jpg");
+}
+
+.sf-card-bg-cafe {
+  background-image: url("../img/cafe.jpg");
+}
+
+.sf-card-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(circle at top left, var(--sf-accent), #1a1f2f);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.8;
+}
+
+.sf-card-content {
+  position: relative;
+}
+
+.sf-card-tag {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: var(--sf-radius-pill);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--sf-text-soft);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.sf-card h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.sf-card p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--sf-text-soft);
+}
+
+/* Inline link */
+.sf-link-inline {
+  font-size: 13px;
+  color: var(--sf-accent);
+  text-decoration: none;
+}
+
+/* ================================
+   Category tabs (Cafés / Workspaces)
+   ================================ */
+
 .sf-category-tabs {
   display: flex;
-  background: #ffffff;
+  margin: 8px 0 16px;
   border-radius: var(--sf-radius-pill);
+  background: #ffffff;
   border: 1px solid var(--sf-border);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  padding: 4px;
-  gap: 4px;
-  margin-bottom: 10px;
+  overflow: hidden;
 }
 
 .sf-category-tab {
   flex: 1;
-  border-radius: var(--sf-radius-pill);
   border: none;
   background: transparent;
-  padding: 8px 0;
-  font-size: 13px;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: var(--sf-radius-pill);
   cursor: pointer;
   color: var(--sf-text-soft);
 }
@@ -140,51 +245,43 @@ body {
 .sf-category-tab-active {
   background: var(--sf-accent-soft);
   color: var(--sf-text);
-  font-weight: 500;
 }
 
-/* FILTER TOOLBAR (Jahez / Booking style) */
-.sf-filter-toolbar {
-  margin-bottom: 14px;
+/* ================================
+   Filters row
+   ================================ */
+
+.sf-filter-panel {
+  margin-bottom: 12px;
 }
 
-.sf-filter-main {
-  width: 100%;
-  border-radius: 16px;
-  border: 1px solid var(--sf-border);
-  background: #ffffff;
-  padding: 8px 12px;
+.sf-filter-header {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  cursor: default;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
 }
 
-.sf-filter-main-label {
-  font-size: 12px;
+.sf-filter-title {
   font-weight: 500;
+}
+
+.sf-filter-value {
   color: var(--sf-text-soft);
 }
 
-.sf-filter-main-value {
-  font-size: 13px;
-  color: var(--sf-text);
-}
-
-/* Chips row */
-.sf-filter-chip-row {
+.sf-filter-chips-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
+  gap: 8px;
 }
 
 .sf-filter-chip {
+  padding: 6px 12px;
   border-radius: var(--sf-radius-pill);
-  border: 1px solid var(--sf-border);
   background: #ffffff;
-  padding: 6px 10px;
+  border: 1px solid var(--sf-border);
   font-size: 12px;
   color: var(--sf-text-soft);
   cursor: pointer;
@@ -192,11 +289,14 @@ body {
 
 .sf-filter-chip-active {
   background: var(--sf-accent-soft);
-  border-color: rgba(22, 199, 132, 0.8);
-  color: var(--sf-accent);
+  border-color: var(--sf-accent);
+  color: var(--sf-text);
 }
 
-/* Spots list */
+/* ================================
+   Spot list cards
+   ================================ */
+
 .sf-list {
   display: flex;
   flex-direction: column;
@@ -210,7 +310,7 @@ body {
   border-radius: var(--sf-radius-md);
   background: #ffffff;
   border: 1px solid #d8dde5;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   text-decoration: none;
   color: inherit;
 }
@@ -259,10 +359,46 @@ body {
   color: var(--sf-text-soft);
 }
 
-/* About page */
+/* "Open in Maps" button */
+.sf-map-btn {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: var(--sf-radius-pill);
+  border: 1px solid var(--sf-accent);
+  background: #ffffff;
+  color: var(--sf-accent);
+  font-size: 11px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sf-map-btn:hover {
+  background: var(--sf-accent-soft);
+}
+
+/* ================================
+   About page
+   ================================ */
+
 .sf-about {
   font-size: 13px;
   color: var(--sf-text-soft);
+}
+
+.sf-about h1 {
+  font-size: 24px;
+  margin: 0 0 10px;
+  color: var(--sf-text);
+}
+
+.sf-about h2 {
+  font-size: 16px;
+  margin: 18px 0 6px;
+  color: var(--sf-text);
 }
 
 .sf-about p {
@@ -273,20 +409,40 @@ body {
   margin: 0 0 8px 18px;
 }
 
-.sf-section-title {
-  margin: 16px 0 6px;
-  font-size: 15px;
-  color: var(--sf-text);
+/* ================================
+   Buttons & misc
+   ================================ */
+
+.sf-bottom-action {
+  margin-top: 24px;
 }
 
-/* Note text */
+.sf-primary-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--sf-radius-pill);
+  border: none;
+  background: radial-gradient(circle at top, var(--sf-accent), #00b97c);
+  color: #020304;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 0 22px rgba(51, 255, 178, 0.55);
+}
+
+.sf-primary-btn:disabled {
+  opacity: 0.7;
+}
+
 .sf-note {
   font-size: 11px;
   color: var(--sf-text-soft);
   margin-top: 6px;
 }
 
-/* Bottom nav */
+/* ================================
+   Bottom navigation
+   ================================ */
+
 .sf-nav {
   position: fixed;
   bottom: 0;
@@ -311,15 +467,21 @@ body {
   font-size: 11px;
   text-decoration: none;
   color: var(--sf-text-soft);
+  padding-top: 4px;
 }
 
 .sf-nav-item-active {
   color: var(--sf-accent);
+  font-weight: 500;
 }
 
-/* Small screens tweak */
+/* ================================
+   Responsive tweaks
+   ================================ */
+
 @media (min-width: 600px) {
-  .sf-main {
+  .sf-main,
+  .sf-main-about {
     padding-left: 24px;
     padding-right: 24px;
   }
