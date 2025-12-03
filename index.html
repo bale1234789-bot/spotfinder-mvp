@@ -1,64 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>SpotFinder | Explore cafés & workspaces</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-</head>
-<body class="sf-body">
-  <!-- Header -->
-  <header class="sf-header">
-    <div class="sf-logo-wrap">
-      <div class="sf-logo-dot"></div>
-      <span class="sf-logo-text">SpotFinder</span>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SpotFinder MVP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="sf-body">
+    <!-- HEADER -->
+    <header class="sf-header">
+      <div class="sf-logo-wrap">
+        <div class="sf-logo-dot"></div>
+        <div class="sf-logo-text">
+          SpotFinder
+          <span class="sf-logo-tagline">Choose. Book. Work.</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN APP WRAPPER -->
+    <main class="sf-main">
+
+      <!-- SCREEN 1: HOME / EXPLORE -->
+      <section id="screen-home" class="sf-screen sf-screen-active">
+        <div class="sf-hero">
+          <h1 class="sf-hero-title">Explore study &amp; work spots</h1>
+          <p class="sf-hero-sub">
+            Cafés and workspaces in Khobar with Wi-Fi, power outlets and comfortable seating.
+          </p>
+        </div>
+
+        <!-- Sort / Filter row -->
+        <div class="sf-row">
+          <button id="btn-open-sort" class="sf-chip-btn">
+            <span>Sort</span>
+          </button>
+          <button id="btn-open-filter" class="sf-chip-btn">
+            <span>Filter</span>
+          </button>
+        </div>
+
+        <!-- Spots list -->
+        <div class="sf-list">
+          <!-- Tim Hortons (clickable, full flow) -->
+          <article class="sf-spot-card" data-spot-id="tim">
+            <img src="assets/img/tim.jpg" alt="Tim Hortons" class="sf-spot-img" />
+            <div class="sf-spot-main">
+              <h2 class="sf-spot-name">Tim Hortons</h2>
+              <p class="sf-spot-location">Khobar, Saudi Arabia · 2.5 km away</p>
+              <div class="sf-spot-meta">
+                <div class="sf-feature-icons">
+                  <span class="sf-icon sf-icon-wifi" title="Wi-Fi"></span>
+                  <span class="sf-icon sf-icon-outlet" title="Power outlets"></span>
+                  <span class="sf-icon sf-icon-chair" title="Comfortable seating"></span>
+                  <span class="sf-icon sf-icon-table" title="Tables available"></span>
+                  <span class="sf-icon sf-icon-no-music" title="No music"></span>
+                </div>
+                <button class="sf-card-link js-view-details" data-spot="tim">
+                  Details
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Equal Café (mock, not full flow) -->
+          <article class="sf-spot-card sf-spot-card-disabled">
+            <img src="assets/img/equal.jpg" alt="Equal Café" class="sf-spot-img" />
+            <div class="sf-spot-main">
+              <h2 class="sf-spot-name">Equal Café</h2>
+              <p class="sf-spot-location">Khobar, Saudi Arabia · 2.1 km away</p>
+              <div class="sf-spot-meta">
+                <div class="sf-feature-icons">
+                  <span class="sf-icon sf-icon-wifi"></span>
+                  <span class="sf-icon sf-icon-outlet"></span>
+                  <span class="sf-icon sf-icon-chair"></span>
+                </div>
+                <span class="sf-note-small">Demo only</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tulum Café (mock, not full flow) -->
+          <article class="sf-spot-card sf-spot-card-disabled">
+            <img src="assets/img/tulum.jpg" alt="Tulum Café" class="sf-spot-img" />
+            <div class="sf-spot-main">
+              <h2 class="sf-spot-name">Tulum Café</h2>
+              <p class="sf-spot-location">Khobar, Saudi Arabia · 3.0 km away</p>
+              <div class="sf-spot-meta">
+                <div class="sf-feature-icons">
+                  <span class="sf-icon sf-icon-outlet"></span>
+                  <span class="sf-icon sf-icon-table"></span>
+                  <span class="sf-icon sf-icon-music"></span>
+                </div>
+                <span class="sf-note-small">Demo only</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: DETAILS (TIM HORTONS) -->
+      <section id="screen-details" class="sf-screen">
+        <button class="sf-back" data-nav-target="home">← Back</button>
+        <div class="sf-details-header">
+          <img src="assets/img/tim.jpg" class="sf-details-hero" alt="Tim Hortons" />
+          <div class="sf-details-top">
+            <h1>Tim Hortons</h1>
+            <p>Khobar, Saudi Arabia · 2.5 km away</p>
+          </div>
+        </div>
+
+        <section class="sf-details-section">
+          <h2>Features</h2>
+          <div class="sf-feature-grid">
+            <div class="sf-feature-pill sf-feature-on">
+              <span class="sf-icon sf-icon-wifi"></span>
+              <span>Wi-Fi</span>
+            </div>
+            <div class="sf-feature-pill sf-feature-on">
+              <span class="sf-icon sf-icon-outlet"></span>
+              <span>Power Outlets</span>
+            </div>
+            <div class="sf-feature-pill sf-feature-on">
+              <span class="sf-icon sf-icon-chair"></span>
+              <span>Comfortable Seating</span>
+            </div>
+            <div class="sf-feature-pill sf-feature-on">
+              <span class="sf-icon sf-icon-table"></span>
+              <span>Tables Available</span>
+            </div>
+            <div class="sf-feature-pill sf-feature-on">
+              <span class="sf-icon sf-icon-no-music"></span>
+              <span>No Music</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="sf-details-section">
+          <h2>Details</h2>
+          <ul class="sf-info-list">
+            <li>Wi-Fi: Available</li>
+            <li>Power outlets: Yes, near most tables</li>
+            <li>Seating: Comfortable for long study sessions</li>
+            <li>Music: None (quiet environment)</li>
+            <li>Tables: Limited, better to book in advance</li>
+          </ul>
+        </section>
+
+        <div class="sf-bottom-action">
+          <button id="btn-open-confirm" class="sf-primary-btn">
+            Book Your Table
+          </button>
+        </div>
+      </section>
+
+      <!-- SCREEN 5: CONFIRMATION (ARE YOU SURE?) -->
+      <section id="screen-confirm" class="sf-screen">
+        <button class="sf-back" data-nav-target="details">← Back</button>
+        <div class="sf-center-card">
+          <h1>Are you sure?</h1>
+          <p class="sf-body-text">
+            You are booking a table at <strong>Tim Hortons</strong> with the
+            following features:
+          </p>
+          <ul class="sf-info-list">
+            <li>Wi-Fi</li>
+            <li>Power Outlets</li>
+            <li>Comfortable Seating</li>
+            <li>Tables Available</li>
+            <li>No Music</li>
+          </ul>
+
+          <div class="sf-btn-row">
+            <button id="btn-confirm-yes" class="sf-primary-btn">
+              Yes, Book Now
+            </button>
+            <button class="sf-secondary-btn" data-nav-target="details">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 6: PAYMENT -->
+      <section id="screen-payment" class="sf-screen">
+        <button class="sf-back" data-nav-target="details">← Back</button>
+        <div class="sf-center-card">
+          <h1>Complete Your Booking</h1>
+          <p class="sf-body-text">
+            Tim Hortons — 1 table reservation
+          </p>
+
+          <div class="sf-payment-summary">
+            <div class="sf-payment-row">
+              <span>Reservation fee</span>
+              <span>SAR 30.00</span>
+            </div>
+            <div class="sf-payment-row">
+              <span>VAT included</span>
+              <span>—</span>
+            </div>
+            <div class="sf-payment-row sf-payment-total">
+              <span>Total</span>
+              <span>SAR 30.00</span>
+            </div>
+          </div>
+
+          <div class="sf-pay-card">
+            <div class="sf-pay-left">
+              <div class="sf-pay-logo">Pay</div>
+              <div class="sf-pay-text">
+                <div>SpotFinder Pay</div>
+                <div class="sf-pay-sub">•••• 4821</div>
+              </div>
+            </div>
+            <div class="sf-pay-right">Apple&nbsp;Pay style</div>
+          </div>
+
+          <div class="sf-btn-row">
+            <button id="btn-go-waiting" class="sf-primary-btn">
+              Confirm &amp; Pay
+            </button>
+            <button class="sf-secondary-btn" data-nav-target="details">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 7: WAITING (60s) -->
+      <section id="screen-waiting" class="sf-screen">
+        <div class="sf-center-card sf-center-card-large">
+          <h1>Waiting for confirmation…</h1>
+          <p class="sf-body-text">
+            Tim Hortons is reviewing your table request.
+          </p>
+
+          <div class="sf-timer-circle">
+            <span id="waiting-timer">60s</span>
+          </div>
+
+          <ul class="sf-info-list">
+            <li>Wi-Fi</li>
+            <li>Power Outlets</li>
+            <li>Comfortable Seating</li>
+            <li>Tables Available</li>
+            <li>No Music</li>
+          </ul>
+
+          <p class="sf-note">
+            Please wait while the café confirms your booking.
+          </p>
+        </div>
+      </section>
+
+      <!-- SCREEN 8: BOOKING CONFIRMED -->
+      <section id="screen-success" class="sf-screen">
+        <div class="sf-center-card sf-center-card-large">
+          <div class="sf-success-icon">✔</div>
+          <h1>Booking Confirmed!</h1>
+          <p class="sf-body-text">
+            Your table at <strong>Tim Hortons</strong> is ready.
+          </p>
+
+          <div class="sf-ticket">
+            <div class="sf-qr-mock"></div>
+            <p class="sf-note">Show this code upon arrival.</p>
+          </div>
+
+          <div class="sf-info-list-wrap">
+            <ul class="sf-info-list">
+              <li>Location: Khobar, Saudi Arabia</li>
+              <li>Reservation: 1 table</li>
+              <li>Fee: SAR 30</li>
+              <li>Status: Confirmed ✅</li>
+            </ul>
+          </div>
+
+          <div class="sf-btn-row">
+            <button class="sf-primary-btn">
+              Open in Maps
+            </button>
+            <button class="sf-secondary-btn" data-nav-target="home">
+              Back to Home
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- SORT MODAL -->
+    <div id="sort-modal" class="sf-modal">
+      <div class="sf-modal-backdrop"></div>
+      <div class="sf-modal-panel">
+        <div class="sf-modal-header">
+          <h2>Sort by</h2>
+          <button class="sf-modal-close" data-close-modal="sort">✕</button>
+        </div>
+        <div class="sf-modal-body">
+          <label class="sf-radio-row">
+            <input type="radio" name="sort" checked />
+            <span>Nearest first</span>
+          </label>
+          <label class="sf-radio-row">
+            <input type="radio" name="sort" />
+            <span>Farthest first</span>
+          </label>
+          <label class="sf-radio-row">
+            <input type="radio" name="sort" />
+            <span>Most popular</span>
+          </label>
+          <label class="sf-radio-row">
+            <input type="radio" name="sort" />
+            <span>Highest rated</span>
+          </label>
+          <label class="sf-radio-row">
+            <input type="radio" name="sort" />
+            <span>Best for studying</span>
+          </label>
+        </div>
+        <div class="sf-modal-footer">
+          <button class="sf-primary-btn" data-close-modal="sort">
+            Apply
+          </button>
+        </div>
+      </div>
     </div>
-  </header>
 
-  <main class="sf-main">
-    <!-- Hero -->
-    <section class="sf-hero">
-      <h1 class="sf-hero-title">Near You &amp; Top Matches</h1>
-      <p class="sf-hero-sub">
-        Cafés and workspaces ranked using comfort, noise, WiFi, outlets, and temperature.
-      </p>
-    </section>
-
-    <!-- Category toggle: Cafés / Workspaces -->
-    <section class="sf-toggle">
-      <button class="sf-toggle-btn sf-toggle-btn-active" data-category="cafe">
-        Cafés
-      </button>
-      <button class="sf-toggle-btn" data-category="workspace">
-        Workspaces
-      </button>
-    </section>
-
-    <!-- Filters -->
-    <section class="sf-filters">
-      <div class="sf-filters-header">
-        <span>Filters</span>
-        <span id="sf-active-filters-label" class="sf-filters-label">No filters</span>
+    <!-- FILTER MODAL -->
+    <div id="filter-modal" class="sf-modal">
+      <div class="sf-modal-backdrop"></div>
+      <div class="sf-modal-panel">
+        <div class="sf-modal-header">
+          <h2>Filter by</h2>
+          <button class="sf-modal-close" data-close-modal="filter">✕</button>
+        </div>
+        <div class="sf-modal-body">
+          <div class="sf-filter-chips">
+            <button class="sf-chip sf-chip-active">Has Wi-Fi</button>
+            <button class="sf-chip sf-chip-active">Power Outlets</button>
+            <button class="sf-chip sf-chip-active">Comfortable Seating</button>
+            <button class="sf-chip">Tables Available</button>
+            <button class="sf-chip">No Music</button>
+          </div>
+        </div>
+        <div class="sf-modal-footer">
+          <button class="sf-primary-btn" data-close-modal="filter">
+            Apply Filters
+          </button>
+        </div>
       </div>
-      <div class="sf-filter-chips">
-        <button class="sf-chip" data-filter="quiet">Quiet</button>
-        <button class="sf-chip" data-filter="strongWifi">Strong WiFi</button>
-        <button class="sf-chip" data-filter="manyOutlets">Many outlets</button>
-        <button class="sf-chip" data-filter="ergonomic">Ergonomic seating</button>
-        <button class="sf-chip" data-filter="coolTemp">Cool temp</button>
-      </div>
-    </section>
+    </div>
 
-    <!-- Spots list -->
-    <section id="sf-spot-list" class="sf-list"></section>
-  </main>
-
-  <!-- Bottom nav -->
-  <nav class="sf-nav">
-    <a href="index.html" class="sf-nav-item sf-nav-item-active">Explore</a>
-    <a href="about.html" class="sf-nav-item">About</a>
-  </nav>
-
-  <script src="assets/js/app.js"></script>
-</body>
+    <script src="assets/js/app.js" defer></script>
+  </body>
 </html>
